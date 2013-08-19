@@ -19,7 +19,8 @@ method fuel_for_member { view_single_result('txns/litres_by_member', @_) }
 
 method litres_per_txn  { 
     my $period = shift; 
-
+#SP, empty period caused errors
+$period ||= "day";
     my $opts = {};
 
     # DateTime::Duration expects plurals
@@ -52,7 +53,8 @@ method litres_per_txn  {
 
 method litres_per_day  { 
     my $period = shift; 
-
+#SP, empty period caused errors
+$period ||= "day";
     my $opts = {};
 
     # DateTime::Duration expects plurals
@@ -108,7 +110,10 @@ method taxes_paid      {
 
 sub view_single_result {
     my $result = view(@_);
-    return int $result->{rows}[0]{value};
+    #SP: return zero if there no members or no sold fuel
+    #return int $result->{rows}[0]{value};
+    if (defined $result->{rows}[0]{value}) { return int $result->{rows}[0]{value}; }
+    else { return 0; }
 }
 
 sub view {

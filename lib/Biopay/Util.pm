@@ -71,7 +71,9 @@ sub now_dt {
 sub host {
     return 'http://' . request->host
         if request && request->host =~ m/localhost/;
-    return 'https://vancouverbiodiesel.org';
+    #return 'http://cowichanenergy';
+    #SP
+    return config->{external_url};
 }
 
 sub beanstream_url {

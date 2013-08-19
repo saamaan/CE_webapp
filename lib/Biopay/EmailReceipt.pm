@@ -52,7 +52,7 @@ method send {
     for my $addr (parse_email($self->member->email)) {
         email {
             to => $addr,
-            bcc => 'info@vancouverbiodiesel.org',
+            bcc => 'saamaan@kinsolresearch.com',
             from => config->{email_from},
             subject => "Biodiesel Co-op Receipt - \$$total_price",
             type => 'html',

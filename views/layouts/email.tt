@@ -319,7 +319,7 @@
                                                                 [% content %]
 <hr />
 <p>
-For all co-op related questions, contact <a href="mailto:info@vancouverbiodiesel.org">info@vancouverbiodiesel.org</a>.
+For all co-op related questions, contact <a href="mailto:saamaan@kinsolresearch.com">saamaan@kinsolresearch.com</a>.
 </p>
 <hr />
                                                             </div>
@@ -346,7 +346,7 @@ For all co-op related questions, contact <a href="mailto:info@vancouverbiodiesel
                                                     <tr>
                                                         <td colspan="2" valign="middle" id="social">
                                                             <div mc:edit="std_social">
-                                                                &nbsp;<a href="http://twitter.com/vanbiodiesel">Follow the co-op on Twitter</a> | <a href="http://vancouverbiodiesel.org">Visit our website</a>&nbsp;
+                                                                &nbsp;<a href="http://twitter.com/vanbiodiesel">Follow the co-op on Twitter</a> | <a href="http://cowichanenergy">Visit our website</a>&nbsp;
 
                                                             </div>
                                                         </td>
@@ -355,7 +355,7 @@ For all co-op related questions, contact <a href="mailto:info@vancouverbiodiesel
                                                         <td valign="top" width="550">
                                                             <br />
                                                             <div mc:edit="std_footer">
-                                                                <em>Copyright &copy; 2011 <a href="http://vancouverbiodiesel.org">Vancouver Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
+                                                                <em>Copyright &copy; 2011 <a href="http://cowichanenergy">Vancouver Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
                                                             </div>
                                                             <br />
                                                         </td>

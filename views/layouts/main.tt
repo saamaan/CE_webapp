@@ -80,7 +80,7 @@
       [% IF !params.printable %]
         <footer style="padding: 30px 0 0 0">
           <p><a href="/terms">Terms of Service</a> | <a href="/refunds">Refund Policy</a> | <a href="/privacy">Privacy Policy</a></p>
-          <p>This service was created by <a href="http://recyclingalternative.com">Recycling Alternative</a> and <a href="http://twitter.com/lukec">@lukec</a> for the <a href="http://vancouverbiodiesel.org">Vancouver Biodiesel Co-op</a>.</p>
+          <p>This service was created by <a href="http://recyclingalternative.com">Recycling Alternative</a> and <a href="http://twitter.com/lukec">@lukec</a> for the <a href="http://cowichanenergy">Kinsol Research Inc</a>.</p>
         </footer>
       [% END %]
     </div>

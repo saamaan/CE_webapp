@@ -87,7 +87,7 @@ for my $page (qw(privacy refunds terms biodiesel-faq news)) {
 hook before_template => sub {
     my $tokens = shift;
 
-    $tokens->{info_email_link} = '<a href="mailto:info@vancouverbiodiesel.org">info@vancouverbiodiesel.org</a>';
+    $tokens->{info_email_link} = '<a href="mailto:saamaan@kinsolresearch.com">saamaan@kinsolresearch.com</a>';
     $tokens->{host} = host();
 
     for my $type (qw/error warning success message/) {
@@ -121,7 +121,7 @@ EOT
         else {
             unless ($m->active or $tokens->{message}) {
                 $tokens->{warning} ||= <<'EOT';
-Your account is cancelled. <a href="mailto:info@vancouverbiodiesel.org">Email us</a> if this is incorrect.
+Your account is cancelled. <a href="mailto:saamaan@kinsolresearch.com">Email us</a> if this is incorrect.
 EOT
             }
         }
@@ -689,7 +689,10 @@ get '/members/:member_id/payment' => sub {
 sub update_payment_profile_message {
     my $member = shift;
     given (params->{responseCode}) {
-        when (undef) { return undef }
+	#SP
+	#This cause the website to blowup when the user logged in (observed it for a new member) and immediately clicked on "view profile"
+	when (undef) { return ""; }
+#        when (undef) { return undef }
         when (1) { # Successful!
             $member->payment_hash(params->{customerCode});
             $member->billing_error(undef);
@@ -833,7 +836,7 @@ get '/member/cancel' => sub {
         $member->send_cancel_email;
         session warning => <<'EOT';
 This membership has been cancelled.<br />
-<p>If you have any feedback for our co-op, please send it to us at <a href="mailto:info@vancouverbiodiesel.org">info@vancouverbiodiesel.org</a>.</p>
+<p>If you have any feedback for our co-op, please send it to us at <a href="mailto:saamaan@kinsolresearch.com">saamaan@kinsolresearch.com</a>.</p>
 EOT
         forward '/member/view';
     }

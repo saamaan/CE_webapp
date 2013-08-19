@@ -80,7 +80,7 @@ method make_real {
     my $member = Biopay::Member->Create( @_,
         name => $name,
         (map { $_ => $self->$_ }
-            qw/address phone_num email payment_hash/),
+            qw/PIN address phone_num email payment_hash/),		#SP added PIN to the member
         start_epoch => $now->epoch,
         dues_paid_until => $new_expiry->epoch,
         login_hash => Data::UUID->new->create_str,

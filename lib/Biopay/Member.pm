@@ -25,7 +25,7 @@ has 'email'  => (isa => 'Maybe[Str]', is => 'rw');
 has 'start_epoch'  => (isa => 'Maybe[Num]', is => 'rw');
 has 'dues_paid_until'  => (isa => 'Maybe[Num]', is => 'rw');
 has 'payment_hash' => (isa => 'Maybe[Str]', is => 'rw');
-has 'PIN' => (isa => 'Maybe[Str]', is => 'rw');
+has 'PIN' => (isa => 'Str', is => 'rw', required => 1);			#SP this should now be necessary
 has 'active' => (isa => 'Bool', is => 'rw', default => 1);
 has 'password' => (isa => 'Maybe[Str]', is => 'rw');
 has 'email_optout' => (isa => 'Bool', is => 'rw', default => 0);
@@ -218,21 +218,25 @@ method freeze   { $self->set_freeze(1, @_) }
 method unfreeze { $self->set_freeze(0, @_) }
 method set_freeze {
     my $val = shift;
-    Biopay::Command->Create( @_,
-        command => $val ? 'freeze' : 'unfreeze',
-        member_id => $self->member_id,
-    );
+    #SP don't need this without a cardlock
+    #Biopay::Command->Create( @_,
+    #    command => $val ? 'freeze' : 'unfreeze',
+    #    member_id => $self->member_id,
+    #);
     $self->frozen($val);
     $self->save;
 }
 
 method change_PIN {
     my $new_PIN = shift;
-    Biopay::Command->Create(
-        command => 'change_PIN',
-        new_PIN => $new_PIN,
-        member_id => $self->id,
-    );
+    #SP don't need with without a cardlock
+    #Biopay::Command->Create(
+    #    command => 'change_PIN',
+    #    new_PIN => $new_PIN,
+    #    member_id => $self->id,
+    #);
+    $self->PIN($new_PIN);
+    $self->save;
 }
 
 method send_cancel_email {

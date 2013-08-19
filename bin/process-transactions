@@ -52,8 +52,17 @@ my $items = [
         @$txns
 ];
 
+#SP
+#There is  a problem here! The recept is sent out from a separate process, see
+#system($^X, "$FindBin::Bin/send-receipt", '--for', $member->id); further below.
+#There the last receipt is grabbed out of the DB and sent. This is done using 
+#by_member view on receipts with the member_id as the key. They docs from DB are
+#returned sorted alphabetically by their _id. all <num>-txns[...] such as 2-txns-[...]
+#will showup at the end (after single txn receipts).
+#TODO Maybe the right way of fixing this is to sort stuff by "at" field...
 my $order_num = @$txns > 1 
-    ? sprintf("%d-txns-%d", @$txns+0, time)
+    #? sprintf("%d-txns-%d", @$txns+0, time)
+    ? "txn-" . $txns->[0]->txn_id . sprintf("_and%dmore", @$txns-1)
     : "txn-" . $txns->[0]->txn_id;
 
 my $need_to_renew_membership = $member->membership_is_expired;
@@ -100,7 +109,8 @@ eval {
                 . "\nPayment error was: $err");
         };
 
-        create_freeze_job($member, 'freeze');
+	    #SP don't need this without the cardlock
+	    #create_freeze_job($member, 'freeze');
 
         print "Transaction failed. Exiting.\n" if $verbose;
         exit 0;
@@ -159,27 +169,29 @@ if (my $err = $@) {
 print "Transaction complete. Exiting.\n";
 exit 0;
 
-sub create_freeze_job {
-    my $member = shift;
-    my $type = shift;
-    try {
-        Biopay::Command->Create(
-            command => $type,
-            member_id => $member->id,
-        );
-    }
-    catch {
-        my $err = $_;
-        email_admin("Failed to $type @{[$member->id]}",
-            "I failed to create a $type job for $member->id.\n\n"
-            . "Error: $err");
-    };
-}
+#SP shouldn't need this without cardlock
+#sub create_freeze_job {
+#    my $member = shift;
+#    my $type = shift;
+#    try {
+#        Biopay::Command->Create(
+#            command => $type,
+#            member_id => $member->id,
+#        );
+#    }
+#    catch {
+#        my $err = $_;
+#        email_admin("Failed to $type @{[$member->id]}",
+#            "I failed to create a $type job for $member->id.\n\n"
+#            . "Error: $err");
+#    };
+#}
 
 sub unfreeze_member {
     my $member = shift;
     $member->frozen(0);
-    create_freeze_job($member, 'unfreeze');
+    #SP don't need this without the cardlock
+    #create_freeze_job($member, 'unfreeze');
 
     try {
         $member->save;

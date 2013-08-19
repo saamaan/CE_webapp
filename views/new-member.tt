@@ -49,14 +49,14 @@ $(function() {
 <div id="orientation">
   <h1>New Member Orientation</h1>
   <div class="alert-message info">
-    <p><strong>To join the Biodiesel co-op,</strong> we request that you watch the following <a href="http://youtu.be/ZB5KeOfwuSc">orientation video</a>.</p>
+    <p><strong>To join the Biodiesel co-op,</strong> we request that you watch the following orientation video.</p>
     <p><strong>If you are new to biodiesel,</strong> you should also <a
     href="/biodiesel-faq" target="_blank">read our Biodiesel FAQ</a>.
   </div>
   <iframe width="420" height="315" src="https://www.youtube-nocookie.com/embed/ZB5KeOfwuSc?rel=0" frameborder="0" allowfullscreen></iframe>
   <p>&nbsp;</p>
   <div class="alert-message warning">
-    <p>If you have any questions or concerns, please email us at <a href="mailto:info@vancouverbiodiesel.org">info@vancouverbiodiesel.org</a>.</p>
+    <p>If you have any questions or concerns, please email us at <a href="mailto:saamaan@kinsolresearch.com">saamaan@kinsolresearch.com</a>.</p>
     <p>We will do all we can to help you make an informed choice about running biodiesel in your vehicle.</p>
   </div>
   <hr />
