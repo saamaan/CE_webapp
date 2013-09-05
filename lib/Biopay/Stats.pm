@@ -7,14 +7,14 @@ use DateTime;
 use Biopay::Util qw/now_dt/;
 use methods;
 
-has 'fuel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1);
+has 'fuel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1); #SP TTP
 has 'active_members'    => (is => 'ro', isa => 'Num', lazy_build => 1);
 
 method _build_active_members    { view_single_result('members/active_count', @_) }
 method _build_fuel_sold_alltime { view_single_result('txns/litres_by_member' ) }
 
 method fuel_sales      { view_single_result('txns/fuel_sales', @_) }
-method co2_reduction   { int($self->fuel_sold_alltime * 1.94) }
+method co2_reduction   { int($self->fuel_sold_alltime * 1.94) } #SP TTP
 method fuel_for_member { view_single_result('txns/litres_by_member', @_) }
 
 method litres_per_txn  { 
@@ -103,14 +103,20 @@ method cumulative_litres {
 
 method taxes_paid      {
     sprintf '%.02f', 
-        $self->fuel_sold_alltime * 0.24     # Motor Fuels Tax
-        + $self->fuel_sold_alltime * 0.0639 # Carbon Tax
+        $self->fuel_sold_alltime * 0.24     # Motor Fuels Tax  #SP TTP
+        + $self->fuel_sold_alltime * 0.0639 # Carbon Tax       #SP TTP
         + ($self->fuel_sales - $self->fuel_sales / 1.05)          # HST
 }
 
+#Used to get the actual emitted value, 
+#when the result of a view is expected to be a single row,
+#e.g. when there is a nice reduction defined to aggregate everything!
+#At the time of writing this comment, 
+#it is being used on active_count for members and total litres sold
+#to a member, which are both numeric. Therefore the else hack makes sense!
 sub view_single_result {
     my $result = view(@_);
-    #SP: return zero if there no members or no sold fuel
+    #SP: return zero if there are no members or no sold fuel
     #return int $result->{rows}[0]{value};
     if (defined $result->{rows}[0]{value}) { return int $result->{rows}[0]{value}; }
     else { return 0; }

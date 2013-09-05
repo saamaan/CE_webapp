@@ -43,13 +43,7 @@
     <dl>
       <li><a href="/">Biodiesel Co-op Homepage</a></li>
       <li><a href="/biodiesel-faq">Co-op FAQ</a></li>
-      <li><a href="http://twitter.com/vanbiodiesel/">Co-op on Twitter</a></li>
       <li><a href="http://en.wikipedia.org/wiki/Biodiesel">Biodiesel on Wikipedia</a></li>
-      <li><a href="/biopay.pdf">Biopay Info Sheet</a></li>
-      <li><a href="http://twitter.com/vanbiodiesel" class="twitter-follow-button"
-              data-show-count="false">Follow @vanbiodiesel</a>
-            <script src="https://platform.twitter.com/widgets.js" type="text/javascript">
-            </script></li>
     </dl>
     <p><a href="/login" class="large primary btn">Member Login</a></p>
     <p><a href="/admin-login" class="large btn">Admin Login</a></p>

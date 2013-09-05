@@ -8,7 +8,7 @@
   [% SET litres = stats.fuel_sold_alltime() %]
     <li>Active Members: [% stats.active_members() %]</li>
     <li>Fuel sales:  [% stats.fuel_sales() %]</li>
-    <li>Fuel sold: [% litres %] Litres</li>
+    <li>Total sold: [% litres %] Litres</li>
     <li>Current taxes: 29.39¢/L</li>
     <li>Approx CO2 reduction: [% (litres * 1.94) div 1 %]kg (<a href="http://www.biomaxfuels.com.au/carbon.html">source</a>)</li>
   </ul>

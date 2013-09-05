@@ -4,7 +4,7 @@ $(function() {
           + '<li><strong>Current Price:</strong> $[% prices.fuel_price %]</li>'
           + '<li><strong>Estimated CO2 reduction:</strong> [% stats.co2_reduction %]kg (<a href="http://www.biomaxfuels.com.au/carbon.html">source</a>)</li>'
           + '<li><strong>Registered Members:</strong> [% stats.active_members %]</li>'
-          + '<li><strong>Fuel Sold:</strong> [% stats.fuel_sold_alltime %] Litres</li>'
+          + '<li><strong>Total Sold:</strong> [% stats.fuel_sold_alltime %] Litres</li>'
       + '</ul>' 
     ); 
 });

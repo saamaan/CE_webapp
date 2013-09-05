@@ -11,7 +11,9 @@ has 'epoch_time'      => (isa => 'Num',  is => 'ro', required => 1);
 has 'date'            => (isa => 'Str',  is => 'ro', required => 1);
 has 'price_per_litre' => (isa => 'Num',  is => 'ro', required => 1);
 has 'txn_id'          => (isa => 'Str',  is => 'ro', required => 1);
-has 'cardlock_txn_id' => (isa => 'Str',  is => 'ro');
+#SP
+#Don't need this without the cardlock
+#has 'cardlock_txn_id' => (isa => 'Str',  is => 'ro');
 has 'litres'          => (isa => 'Num',  is => 'ro', required => 1);
 has 'member_id'       => (isa => 'Num',  is => 'ro', required => 1);
 has 'price'           => (isa => 'Num',  is => 'ro', required => 1);

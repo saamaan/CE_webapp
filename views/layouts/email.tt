@@ -319,7 +319,7 @@
                                                                 [% content %]
 <hr />
 <p>
-For all co-op related questions, contact <a href="mailto:saamaan@kinsolresearch.com">saamaan@kinsolresearch.com</a>.
+For all co-op related questions, contact <a href="mailto:info@cowichanenergy.org">info@cowichanergy.org</a>.
 </p>
 <hr />
                                                             </div>
@@ -346,7 +346,7 @@ For all co-op related questions, contact <a href="mailto:saamaan@kinsolresearch.
                                                     <tr>
                                                         <td colspan="2" valign="middle" id="social">
                                                             <div mc:edit="std_social">
-                                                                &nbsp;<a href="http://twitter.com/vanbiodiesel">Follow the co-op on Twitter</a> | <a href="http://cowichanenergy">Visit our website</a>&nbsp;
+                                                                &nbsp;<a href="ec2-54-213-146-19.us-west-2.compute.amazonaws.com">Visit our website</a>&nbsp;
 
                                                             </div>
                                                         </td>

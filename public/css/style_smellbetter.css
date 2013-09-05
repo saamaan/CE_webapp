@@ -1,0 +1,82 @@
+body {
+	background-color: #837253;
+	background-image:url('../images/body-bg.jpg');
+}
+
+div.container {
+	width: 1000px;
+    background-color: #ffffff;
+    margin-top: -230px;
+}
+
+div.container-fluid div.content {
+	width: 800px;
+	max-width: 800px;
+}
+
+div.header {
+    background-image:url('../images/header-wrapper-orange.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    padding-bottom: 470px; 
+    text-align: center;
+/*    width: 100%;
+    height: 100%; */
+}
+
+#motto {	
+    font-size: 49px;
+    color: #ffffff;
+    margin: 0px 0px 0px 9px;
+    display: block;
+    font-weight: normal;
+    padding: 25px 0px;
+    font-family: "Crete Round",Arial,Helvetica,sans-serif;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+#footer { padding: 35px 20px 38px; font-size: 12px; color: #fff; font-family: Arial, Helvetica, sans-serif; text-align: right; background: #262015 url(../images/footer.jpg); }
+#footer div.paragraph { color: #ccc; }
+#footer p { color: #ccc; }
+#footer a { color: #a49271; }
+#footer a:hover { color: #ffedb6; }
+#footer h2 { font-size: 16px; margin: 0 0 2px; padding: .3em 0 .4em 0; line-height: 1.5; font-family: "Crete Round", Arial, Helvetica, sans-serif; color: #eee; border-bottom:1px dashed #999; }
+#footer span { vertical-align: middle; }
+#footer blockquote { border-left:4px solid #555; color:#888; }
+
+.wsite-social-item { width: 23px; height: 23px; margin: 0 0 0 3px; background-image:url('../images/social-orange.png'); }
+.wsite-social-facebook {background-position:0 0;}
+.wsite-social-facebook:hover {background-position:0 -23px;}
+.wsite-social-facebook:active {background-position:0 -46px;}
+.wsite-social-pinterest {background-position:-23px 0;}
+.wsite-social-pinterest:hover {background-position:-23px -23px;}
+.wsite-social-pinterest:active {background-position:-23px -46px;}
+.wsite-social-twitter {background-position:-46px 0;}
+.wsite-social-twitter:hover {background-position:-46px -23px;}
+.wsite-social-twitter:active {background-position:-46px -46px;}
+.wsite-social-linkedin {background-position:-69px 0;}
+.wsite-social-linkedin:hover {background-position:-69px -23px;}
+.wsite-social-linkedin:active {background-position:-69px -46px;}
+.wsite-social-mail {background-position:-92px 0;}
+.wsite-social-mail:hover {background-position:-92px -23px;}
+.wsite-social-mail:active {background-position:-92px -46px;}
+.wsite-social-rss {background-position:-115px 0;}
+.wsite-social-rss:hover {background-position:-115px -23px;}
+.wsite-social-rss:active {background-position:-115px -46px;}
+.wsite-social-flickr {background-position:-138px 0;}
+.wsite-social-flickr:hover {background-position:-138px -23px;}
+.wsite-social-flickr:active {background-position:-138px -46px;}
+.wsite-social-plus {background-position:-161px 0;}
+.wsite-social-plus:hover {background-position:-161px -23px;}
+.wsite-social-plus:active {background-position:-161px -46px;}
+.wsite-social-vimeo {background-position:-184px 0;}
+.wsite-social-vimeo:hover {background-position:-184px -23px;}
+.wsite-social-vimeo:active {background-position:-184px -46px;}
+.wsite-social-yahoo {background-position:-207px 0;}
+.wsite-social-yahoo:hover {background-position:-207px -23px;}
+.wsite-social-yahoo:active {background-position:-207px -46px;}
+.wsite-social-youtube {background-position:-230px 0;}
+.wsite-social-youtube:hover {background-position:-230px -23px;}
+.wsite-social-youtube:active {background-position:-230px -46px;}
+
+#content h2 { color: #d98100; }
