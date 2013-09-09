@@ -5,32 +5,41 @@ use Dancer::Plugin::CouchDB;
 use DateTime;
 use Biopay::Member;
 
+use Switch;
+
 extends 'Biopay::Resource';
 
-has 'epoch_time'      => (isa => 'Num',  is => 'ro', required => 1);
-has 'date'            => (isa => 'Str',  is => 'ro', required => 1);
-has 'price_per_litre' => (isa => 'Num',  is => 'ro', required => 1);
-has 'txn_id'          => (isa => 'Str',  is => 'ro', required => 1);
+has 'epoch_time'                   => (isa => 'Num',  is => 'ro', required => 1);
+has 'date'                         => (isa => 'Str',  is => 'ro', required => 1);
+has 'price_per_litre_diesel'       => (isa => 'Num',  is => 'ro', required => 1);
+has 'price_per_litre_biodiesel'    => (isa => 'Num',  is => 'ro', required => 1);
+has 'txn_id'                       => (isa => 'Str',  is => 'ro', required => 1);
+has 'mix'                          => (isa => 'Str',  is => 'ro', required => 1);
 #SP
 #Don't need this without the cardlock
 #has 'cardlock_txn_id' => (isa => 'Str',  is => 'ro');
-has 'litres'          => (isa => 'Num',  is => 'ro', required => 1);
-has 'member_id'       => (isa => 'Num',  is => 'ro', required => 1);
-has 'price'           => (isa => 'Num',  is => 'ro', required => 1);
-has 'pump'            => (isa => 'Str',  is => 'ro', required => 1);
-has 'paid'            => (isa => 'Bool', is => 'rw', default => 0);
-has 'paid_date'       => (isa => 'Num',  is => 'rw');
-has 'payment_notes'   => (isa => 'Maybe[Str]',  is => 'rw');
+has 'litres'              => (isa => 'Num',  is => 'ro', required => 1);
+has 'litres_diesel'       => (isa => 'Num',  is => 'ro', required => 1); #TODO consider lazy_build
+has 'litres_biodiesel'    => (isa => 'Num',  is => 'ro', required => 1); #TODO consider lazy_build
+has 'member_id'           => (isa => 'Num',  is => 'ro', required => 1);
+has 'price'               => (isa => 'Num',  is => 'ro', required => 1);
+has 'pump'                => (isa => 'Str',  is => 'ro', required => 1);
+has 'paid'                => (isa => 'Bool', is => 'rw', default => 0);
+has 'paid_date'           => (isa => 'Num',  is => 'rw');
+has 'payment_notes'       => (isa => 'Maybe[Str]',  is => 'rw');
 
 with 'Biopay::Roles::HasMember';
 
-has 'GST'         => (is => 'ro', isa => 'Num',    lazy_build => 1);
-has 'total_taxes' => (is => 'ro', isa => 'Num',    lazy_build => 1);
-has 'tax_rate'    => (is => 'ro', isa => 'Num',    lazy_build => 1);
-has 'datetime'    => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'pretty_date' => (is => 'ro', isa => 'Str',    lazy_build => 1);
-has 'pretty_paid_date' => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'co2_reduction'    => (is => 'ro', isa => 'Num', lazy_build => 1);
+has 'GST'                 => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'total_taxes'         => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'tax_rate'            => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'datetime'            => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'pretty_date'         => (is => 'ro', isa => 'Str',    lazy_build => 1);
+has 'pretty_paid_date'    => (is => 'ro', isa => 'Str', lazy_build => 1);
+has 'co2_reduction'       => (is => 'ro', isa => 'Num', lazy_build => 1);
+
+#used for receipts and stuff (not the reports)
+has 'price_per_litre'     => (is => 'ro', isa => 'Num', lazy_build => 1);
 
 sub view_base {'txns'}
 method id { $self->txn_id }
@@ -76,8 +85,10 @@ after 'paid' => sub {
 
 method as_hash {
     my $hash = {};
-    for my $key (qw/_id _rev epoch_time date price_per_litre txn_id paid Type
-                    litres member_id price pump paid_date payment_notes/) {
+    for my $key (qw/_id _rev epoch_time date price_per_litre_diesel 
+					price_per_litre_biodiesel txn_id paid Type
+                    litres litres_diesel litres_biodiesel mix
+					member_id price pump paid_date payment_notes/) {
         $hash->{$key} = $self->$key;
     }
     return $hash;
@@ -122,4 +133,8 @@ method _build_tax_rate {
 
 method _build_co2_reduction {
     return int($self->litres * 1.94);
+}
+
+method _build_price_per_litre {
+	sprintf '%0.02f', $self->price / $self->litres;
 }

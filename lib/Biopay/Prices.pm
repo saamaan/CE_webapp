@@ -6,13 +6,14 @@ use Dancer ':syntax';
 use Try::Tiny;
 use methods;
 
-my @price_fields = qw/price_per_litre annual_membership_price signup_price/;
+my @price_fields = qw/price_per_litre_diesel price_per_litre_biodiesel annual_membership_price signup_price/;
 for (@price_fields) {
     has $_ => (is => 'rw', isa => 'Num', lazy_build => 1);
 }
 has '_doc' => (is => 'rw', isa => 'HashRef', lazy_build => 1);
 
-method fuel_price { $self->price_per_litre }
+method fuel_price { { diesel => $self->price_per_litre_diesel,
+	   				  biodiesel => $self->price_per_litre_biodiesel} }
 method BUILD { $self->async_update }
 
 method async_update {
@@ -33,15 +34,22 @@ method async_update {
     );
 }
 
-method set_fuel_price {
+method set_fuel_price($dppl, $bppl) {
     my $doc = $self->_doc;
-    $self->{price_per_litre} = $doc->{price_per_litre} = shift;
+    $self->{price_per_litre_diesel} = $doc->{price_per_litre_diesel} = $dppl;
+    $self->{price_per_litre_biodiesel} = $doc->{price_per_litre_biodiesel} = $bppl;
     couchdb->save_doc($doc);
 }
 
-method _build_price_per_litre {
-    my $ppl = $self->_doc->{price_per_litre} || die "No price per litre found!";
-    print 'Price_per_litre($ppl)';
+method _build_diesel_price_per_litre {
+    my $ppl = $self->_doc->{price_per_litre_diesel} || die "No Diesel price per litre found!";
+    print "Price_per_litre_diesel($ppl)";
+    return $ppl;
+}
+
+method _build_biodiesel_price_per_litre {
+    my $ppl = $self->_doc->{price_per_litre_biodiesel} || die "No Biodiesel price per litre found!";
+    print "Price_per_litre_biodiesel($ppl)";
     return $ppl;
 }
 

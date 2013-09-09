@@ -23,7 +23,7 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
       </tr>
     [% FOREACH txn IN txns %]
       <tr>
-        <td>B100 on [% txn.pretty_date %]</td>
+        <td>[% txn.mix %] on [% txn.pretty_date %]</td>
         <td align="right">$[% txn.price_per_litre %]/L</td>
         <td align="right">[% txn.litres %]</td>
         <td align="right">$[% txn.GST %]</td>

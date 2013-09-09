@@ -1,10 +1,12 @@
 $(function() {
     $(".vbc_stats").append(                                                   
         '<ul>'
-          + '<li><strong>Current Price:</strong> $[% prices.fuel_price %]</li>'
+          + '<li><strong>Current Diesel Price:</strong> $[% prices.fuel_price.diesel %]</li>'
+          + '<li><strong>Current Biodiesel Price:</strong> $[% prices.fuel_price.biodiesel %]</li>'
           + '<li><strong>Estimated CO2 reduction:</strong> [% stats.co2_reduction %]kg (<a href="http://www.biomaxfuels.com.au/carbon.html">source</a>)</li>'
           + '<li><strong>Registered Members:</strong> [% stats.active_members %]</li>'
-          + '<li><strong>Total Sold:</strong> [% stats.fuel_sold_alltime %] Litres</li>'
+          + '<li><strong>Diesel Sold:</strong> [% stats.fuel_sold_alltime.litres_diesel %] Litres</li>'
+          + '<li><strong>Biodiesel Sold:</strong> [% stats.fuel_sold_alltime.litres_biodiesel %] Litres</li>'
       + '</ul>' 
     ); 
 });

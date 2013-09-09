@@ -19,7 +19,7 @@
   </tr>
   <tr>
     <td><strong>Purchased</strong></td>
-    <td>[% txn.litres %] Litres at $[% txn.price_per_litre %]</td>
+    <td>[% txn.litres %] Litres of [% txn.mix %] at $[% txn.price_per_litre %] per Litre</td>
   </tr>
   <tr>
     <td><strong>Taxes</strong></td>

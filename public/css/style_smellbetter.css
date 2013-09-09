@@ -24,6 +24,16 @@ div.header {
     height: 100%; */
 }
 
+/*legend for flot plot, admin panel reports*/
+.legend table {
+	width: auto;
+}
+
+/*labels for 'Change fuel price' page*/
+label#new_price {
+	width: auto;
+}
+
 #motto {	
     font-size: 49px;
     color: #ffffff;

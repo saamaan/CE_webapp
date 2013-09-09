@@ -4,11 +4,15 @@
 <p>
   <form action="/fuel-price" method="POST">
     <fieldset>
-      <legend>Enter the new fuel price</legend>
-      <label for="">Price per litre:</label>
+      <legend>Enter the new prices</legend>
+      <label id="new_price" for="">Biodiesel price per litre:</label>
       <div class="input">
-        $<input type="text" class="xlarge" size="4" maxlength="4" name="new_price" id="new_price" value="[% current_price %]" />
-      </div>
+        $<input type="text" class="xlarge" size="4" maxlength="4" name="new_biodiesel_price" id="new_price" value="[% current_biodiesel_price %]" />
+   	  </div>
+	  <label id="new_price" for="">Diesel price per litre:</label>
+      <div class="input">
+        $<input type="text" class="xlarge" size="4" maxlength="4" name="new_diesel_price" id="new_price" value="[% current_diesel_price %]" />      
+	  </div>
       <div class="actions">
         <input type="submit" class="btn large primary" value="Change Price" />
         <a class="btn large" href="/">Oops, go back.</a>

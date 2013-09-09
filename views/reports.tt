@@ -64,16 +64,36 @@ $(function () {
         }
     };
 
-    $.plot($("#litres_per_txn"), [ {
-            data: [% stats.litres_per_txn %],
-            bars: litres_per_txn_config.bars
-        }],
+	[% SET lpt_data = stats.litres_per_txn %]
+    $.plot(
+		$("#litres_per_txn"), [ 
+			{
+				label: "Biodiesel",
+            	data: [% lpt_data.biodiesel %],
+		    	bars: litres_per_txn_config.bars
+        	},
+			{
+				label: "Diesel",
+            	data: [% lpt_data.diesel %],
+        		bars: litres_per_txn_config.bars
+			}
+   		],
         litres_per_txn_config.options
     );
-    $.plot($("#litres_per_day"), [ {
-            data: [% stats.litres_per_day %],
-            bars: litres_per_day_config.bars
-        }],
+	[% SET lpd_data = stats.litres_per_day %]
+    $.plot(
+		$("#litres_per_day"), [ 
+			{
+				label: "Diesel",
+            	data: [% lpd_data.diesel %],
+	            bars: litres_per_day_config.bars
+        	},
+			{
+				label: "Biodiesel",
+            	data: [% lpd_data.biodiesel %],
+	            bars: litres_per_day_config.bars
+        	}
+		],
         litres_per_day_config.options
     );
     $.plot($("#cumulative_members"), [ {
@@ -81,21 +101,37 @@ $(function () {
         }],
         { xaxis: { mode: "time" }}
     );
-    $.plot($("#cumulative_litres"), [ {
-            data: [% stats.cumulative_litres %],
-        }],
-        { xaxis: { mode: "time" }}
+
+	[% SET cumulative_data = stats.cumulative_litres %]
+    $.plot(
+		$("#cumulative_litres"), [ 
+			{
+				label: "Biodiesel",
+            	data: [% cumulative_data.biodiesel %],
+        	},
+			{
+				label: "Diesel",
+            	data: [% cumulative_data.diesel %],
+        	}
+		],
+        { xaxis: { mode: "time" }, legend: { position: 'nw'} } 
     );
 
     function litres_per_txn_onDataReceived(series) {
         var bars = litres_per_txn_config.bars;
         var options = litres_per_txn_config.options;
-        $.plot($("#litres_per_txn"), [{data:series, bars:bars}], options);
+        $.plot($("#litres_per_txn"), [
+			{label: "Biodiesel", data: JSON.parse(series.biodiesel), bars: bars},
+			{label: "Diesel", data: JSON.parse(series.diesel), bars: bars}
+		], options);
     }
     function litres_per_day_onDataReceived(series) {
         var bars = litres_per_day_config.bars;
         var options = litres_per_day_config.options;
-        $.plot($("#litres_per_day"), [{data:series, bars:bars}], options);
+        $.plot($("#litres_per_day"), [
+			{label: "Biodiesel", data: JSON.parse(series.biodiesel), bars: bars},
+			{label: "Diesel", data: JSON.parse(series.diesel), bars: bars}
+		], options);
     }
 
     var reports = ["litres_per_txn", "litres_per_day"];

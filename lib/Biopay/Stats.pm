@@ -7,20 +7,40 @@ use DateTime;
 use Biopay::Util qw/now_dt/;
 use methods;
 
-has 'fuel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1); #SP TTP
-has 'active_members'    => (is => 'ro', isa => 'Num', lazy_build => 1);
+use Data::Dumper;
 
-method _build_active_members    { view_single_result('members/active_count', @_) }
-method _build_fuel_sold_alltime { view_single_result('txns/litres_by_member' ) }
+has 'fuel_sold_alltime' => (is => 'ro', isa => 'HashRef', lazy_build => 1);
+has 'diesel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1);
+has 'biodiesel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1);	#may not be necessary as a separate attrib, but added it anyway
+has 'active_members' => (is => 'ro', isa => 'Num', lazy_build => 1);			#may not be necessary as a separate attrib, but added it anyway
 
-method fuel_sales      { view_single_result('txns/fuel_sales', @_) }
-method co2_reduction   { int($self->fuel_sold_alltime * 1.94) } #SP TTP
-method fuel_for_member { view_single_result('txns/litres_by_member', @_) }
+method _build_active_members    { view_single_num('members/active_count', @_) }
+method _build_fuel_sold_alltime { view_single_obj('txns/litres_by_member' ) }
+method _build_diesel_sold_alltime { $self->fuel_sold_alltime->{litres_diesel} }
+method _build_biodiesel_sold_alltime { $self->fuel_sold_alltime->{litres_biodiesel} }
 
+method fuel_sales      { view_single_num('txns/fuel_sales', @_) }
+method co2_reduction   { return int($self->fuel_sold_alltime->{litres_biodiesel} * 1.94) }
+method fuel_for_member { view_single_obj('txns/litres_by_member', @_) }
+
+#This delegates away and returns a json encodes hash (of json encoded plot data).
+#Ajax updating graphs (on client side) will use this, hence the encoding of the hash. 
+method litres_per_txn_json {
+		return encode_json( $self->litres_per_txn(@_) );
+}
+
+#This delegates away and returns a json encodes hash (of json encoded plot data).
+#Ajax updating graphs (on client side) will use this, hence the encoding of the hash. 
+method litres_per_day_json {
+		return encode_json( $self->litres_per_day(@_) );
+}
+
+#This returns a hash ref. The template will be rendered with this at the beginning,
+#on server side, hence no json encoding of the hash.
 method litres_per_txn  { 
-    my $period = shift; 
+	my $period = shift; 
 #SP, empty period caused errors
-$period ||= "day";
+$period ||= "alltime";
     my $opts = {};
 
     # DateTime::Duration expects plurals
@@ -42,19 +62,31 @@ $period ||= "day";
     my $results = view('txns/litres_per_txn', $opts);
 
     # format data so flot can read it
+	#SP
+	# it requires array object of point - [x, y] - array objects
+	# [[1, 2], [3, 4]]
 
-    my $val_hash = $results->{rows}[0]{value}; 
-    my @data;
-    while (my ($key, $value) = each %$val_hash) {
-        push @data, [$key, $value];
+    my $val_hash = $results->{rows}[0]{value};
+
+    my @diesel;
+    while (my ($key, $value) = each %{$val_hash->{diesel}}) {
+        push @diesel, [$key, $value];
     }
-    return encode_json(\@data);
+	my @biodiesel;
+    while (my ($key, $value) = each %{$val_hash->{biodiesel}}) {
+        push @biodiesel, [$key, $value];
+    }    
+	
+	my $data = {diesel => encode_json(\@diesel), biodiesel => encode_json(\@biodiesel) };
+	return $data;
 }
 
+#This returns a hash ref. The template will be rendered with this at the beginning,
+#on server side, hence no json encoding of the hash.
 method litres_per_day  { 
     my $period = shift; 
 #SP, empty period caused errors
-$period ||= "day";
+$period ||= "alltime";
     my $opts = {};
 
     # DateTime::Duration expects plurals
@@ -76,13 +108,23 @@ $period ||= "day";
     my $results = view('txns/litres_per_day', $opts);
 
     # format data so flot can read it
+	#SP
+	# it requires array object of point - [x, y] - array objects
+	# [[1, 2], [3, 4]]
 
-    my $val_hash = $results->{rows}[0]{value}; 
-    my @data;
-    while (my ($key, $value) = each %$val_hash) {
-        push @data, [$key, $value];
+    my $val_hash = $results->{rows}[0]{value};
+
+	my @diesel;
+    while (my ($key, $value) = each %{$val_hash->{diesel}}) {
+        push @diesel, [$key, $value];
     }
-    return encode_json(\@data);
+	my @biodiesel;
+    while (my ($key, $value) = each %{$val_hash->{biodiesel}}) {
+        push @biodiesel, [$key, $value];
+    }
+
+    my $data = {diesel => encode_json(\@diesel), biodiesel => encode_json(\@biodiesel)};
+    return $data;
 }
 
 method cumulative_members {
@@ -97,29 +139,40 @@ method cumulative_litres {
     my $results = view('txns/litres_by_date', {group => 1});
 
     my $total = 0;
-    my @data = map { [$_->{key} * 1000, $total += $_->{value}]} @{$results->{rows}};
-    return encode_json(\@data);
+    my @diesel = map { [$_->{key} * 1000, $total += $_->{value}->{litres_diesel}]} @{$results->{rows}};
+	$total = 0;
+    my @biodiesel = map { [$_->{key} * 1000, $total += $_->{value}->{litres_biodiesel}]} @{$results->{rows}};
+
+	my $data = { diesel => encode_json(\@diesel), biodiesel => encode_json(\@biodiesel) };
+    return $data;
 }
 
 method taxes_paid      {
     sprintf '%.02f', 
-        $self->fuel_sold_alltime * 0.24     # Motor Fuels Tax  #SP TTP
-        + $self->fuel_sold_alltime * 0.0639 # Carbon Tax       #SP TTP
+        $self->fuel_sold_alltime->{litres} * 0.24     # Motor Fuels Tax  #SP TTP
+        + $self->fuel_sold_alltime->{litres} * 0.0639 # Carbon Tax       #SP TTP
         + ($self->fuel_sales - $self->fuel_sales / 1.05)          # HST
 }
 
+#SP
 #Used to get the actual emitted value, 
-#when the result of a view is expected to be a single row,
+#when the result of a view is expected to be a single row with a single number,
 #e.g. when there is a nice reduction defined to aggregate everything!
-#At the time of writing this comment, 
-#it is being used on active_count for members and total litres sold
-#to a member, which are both numeric. Therefore the else hack makes sense!
-sub view_single_result {
+sub view_single_num {
     my $result = view(@_);
     #SP: return zero if there are no members or no sold fuel
     #return int $result->{rows}[0]{value};
-    if (defined $result->{rows}[0]{value}) { return int $result->{rows}[0]{value}; }
+	if (defined $result->{rows}[0]{value}) { return int $result->{rows}[0]{value}; }
     else { return 0; }
+}
+
+#SP
+#Used to get the actual emitted value, 
+#when the result of a view is expected to be a single row with a single object,
+#e.g. when there is a nice reduction defined to aggregate everything!
+sub view_single_obj {
+    my $result = view(@_);
+	return $result->{rows}[0]{value};
 }
 
 sub view {
@@ -133,5 +186,5 @@ sub view {
 }
 
 method as_hash {
-    return { map { $_ => $self->$_ } qw/fuel_sold_alltime active_members/ };
+    return { map { $_ => $self->$_ } qw/biodiesel_sold_alltime diesel_sold_alltime active_members/ };
 }

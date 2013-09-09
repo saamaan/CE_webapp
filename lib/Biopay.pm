@@ -337,6 +337,11 @@ get '/logout' => sub {
 
 get '/unpaid' => sub {
     my $txns = Biopay::Transaction->All_unpaid;
+#SP	
+open(DEBUG, ">>debug.log");
+my $str = Dumper($txns);
+print DEBUG "unpaid: $str";
+close(DEBUG);	
     my %by_member;
     my $total = 0;
     for my $t (@$txns) {
@@ -721,22 +726,31 @@ sub update_payment_profile_message {
 
 get '/fuel-price' => sub {
     template 'fuel-price', {
-        current_price => Biopay::Prices->new->fuel_price,
+        current_biodiesel_price => Biopay::Prices->new->fuel_price->{biodiesel},
+        current_diesel_price => Biopay::Prices->new->fuel_price->{diesel},
     };
 };
 post '/fuel-price' => sub {
-    my $new_price = params->{new_price};
+    my $new_diesel_price = params->{new_diesel_price};
+    my $new_biodiesel_price = params->{new_biodiesel_price};
     my $prices = Biopay::Prices->new;
     my $msg = '';
-    if ($new_price and $new_price =~ m/^[123]\.\d{2}$/) {
-        $msg = "Updated the price to \$$new_price per Litre.";
-        $prices->set_fuel_price($new_price);
+    unless ($new_diesel_price and $new_diesel_price =~ m/^[123]\.\d{2}$/) {
+		$msg .= "Diesel price doesn't look valid. ";
     }
+    unless ($new_biodiesel_price and $new_biodiesel_price =~ m/^[123]\.\d{2}$/) {
+		$msg .= "Biodiesel price doesn't look valid. ";
+    }
+	if ($msg) {
+			$msg .= "Try again.";
+	}
     else {
-        $msg = "That price doesn't look valid - try again.";
+		$prices->set_fuel_price($new_diesel_price, $new_biodiesel_price);
+        $msg = "Updated. Diesel price: \$$new_diesel_price per Litre, Biodiesel price: \$$new_biodiesel_price per Litre.";
     }
     template 'fuel-price', {
-        current_price => $prices->fuel_price,
+        current_biodiesel_price => $prices->fuel_price->{biodiesel},
+        current_diesel_price => $prices->fuel_price->{diesel},
         message => $msg,
     };
 };
@@ -748,11 +762,11 @@ get '/reports' => sub {
 };
 
 get '/reports/litres_per_txn/:period' => sub {
-    return Biopay::Stats->new()->litres_per_txn(params->{period});
+    return Biopay::Stats->new()->litres_per_txn_json(params->{period});
 };
 
 get '/reports/litres_per_day/:period' => sub {
-    return Biopay::Stats->new()->litres_per_day(params->{period});
+    return Biopay::Stats->new()->litres_per_day_json(params->{period});
 };
 
 sub member {
