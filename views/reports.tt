@@ -84,13 +84,13 @@ $(function () {
     $.plot(
 		$("#litres_per_day"), [ 
 			{
-				label: "Diesel",
-            	data: [% lpd_data.diesel %],
+				label: "Biodiesel",
+            	data: [% lpd_data.biodiesel %],
 	            bars: litres_per_day_config.bars
         	},
 			{
-				label: "Biodiesel",
-            	data: [% lpd_data.biodiesel %],
+				label: "Diesel",
+            	data: [% lpd_data.diesel %],
 	            bars: litres_per_day_config.bars
         	}
 		],

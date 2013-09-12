@@ -87,6 +87,9 @@
         <div class="content">
           [% content %]
         </div>
+		[% IF !params.printable %]
+			[% INCLUDE layouts/footer.tt %]
+		[% END %]
       </div>
 <!--
       [% IF !params.printable %]
@@ -100,10 +103,6 @@
   -->
 
 	</div>
-
-	[% IF !params.printable %]
-		[% INCLUDE layouts/footer.tt %]
-	[% END %]
 
     <script src="/javascripts/plugins.js"></script>
     <script src="/javascripts/sorttable.js"></script>

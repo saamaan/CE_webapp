@@ -41,13 +41,13 @@ method set_fuel_price($dppl, $bppl) {
     couchdb->save_doc($doc);
 }
 
-method _build_diesel_price_per_litre {
+method _build_price_per_litre_diesel {
     my $ppl = $self->_doc->{price_per_litre_diesel} || die "No Diesel price per litre found!";
     print "Price_per_litre_diesel($ppl)";
     return $ppl;
 }
 
-method _build_biodiesel_price_per_litre {
+method _build_price_per_litre_biodiesel {
     my $ppl = $self->_doc->{price_per_litre_biodiesel} || die "No Biodiesel price per litre found!";
     print "Price_per_litre_biodiesel($ppl)";
     return $ppl;

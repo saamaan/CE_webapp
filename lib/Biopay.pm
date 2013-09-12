@@ -337,11 +337,6 @@ get '/logout' => sub {
 
 get '/unpaid' => sub {
     my $txns = Biopay::Transaction->All_unpaid;
-#SP	
-open(DEBUG, ">>debug.log");
-my $str = Dumper($txns);
-print DEBUG "unpaid: $str";
-close(DEBUG);	
     my %by_member;
     my $total = 0;
     for my $t (@$txns) {
@@ -462,29 +457,41 @@ sub new_member_dates {
 
 get '/members/create' => sub {
     template 'member-create', {
-        member_id => params->{member_id},
+		#SP, don't allow anyone mess with ids, we know the next available id!
+		#member_id => params->{member_id},
         new_member_dates(),
     };
 };
 
 post '/members/create' => sub {
     my $hs = HTML::Strip->new;
-    my @member_attrs = qw/member_id name phone_num email 
-                   start_date dues_paid_until_date payment_hash/;
+	#SP, don't allow anyone mess with ids, we know the next available id!
+	#'payment_hash' will be undefined, it is not input via the form nor should it!
+	#'PIN' has to be added.
+	#my @member_attrs = qw/member_id name phone_num email 
+	#               start_date dues_paid_until_date payment_hash/;
+    my @member_attrs = qw/name phone_num email PIN start_date dues_paid_until_date address/;
     my %hash;
     for my $field (@member_attrs) {
-        $hash{$field} = $hs->parse(params->{$field});
+        $hash{$field} = $hs->parse(params->{$field}) if defined params->{$field};
         $hs->eof;
     }
 
-    my $member = member();
-    if ($member) {
-        return template 'member-create', {
-            message => "That member_id is already in use!",
-            %hash,
-            new_member_dates(),
-        };
-    }
+#SP
+#open(DEBUG, ">> debug.log");
+#my $str;
+#$str = Dumper(params);
+#print DEBUG "In create member with: $str\n";
+#close(DEBUG);
+	#SP, don't allow anyone mess with ids, we know the next available id!
+	my $member;# = member();
+	#if ($member) {
+	#    return template 'member-create', {
+	#        message => "That member_id is already in use!",
+	#        %hash,
+	#        new_member_dates(),
+	#    };
+	#}
 
     $hash{start_epoch} = ymd_to_epoch(delete $hash{start_date});
     $hash{dues_paid_until} = ymd_to_epoch(delete $hash{dues_paid_until_date});
@@ -816,7 +823,7 @@ get '/member/edit' => sub {
 post '/member/edit' => sub {
     my $member = session_member();
     my $hs = HTML::Strip->new;
-    for my $key (qw/name phone_num email address in_protest email_optout/) {
+    for my $key (qw/name PIN phone_num email address in_protest email_optout/) {
         $member->$key($hs->parse(params->{$key} || ''));
         $hs->eof;
     }

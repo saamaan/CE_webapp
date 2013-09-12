@@ -24,24 +24,38 @@
     [% ELSE %]
       <legend>Please update your info.</legend>
     [% END %]
-    <label for="">Member ID:</label>
-    <div class="input">
-      <input type="text" name="member_id" width="4" 
-      [% IF member && member.member_id %]
-        class="xlarge disabled"
-        placeholder="[% member.member_id %]"
-        disabled
-      [% ELSE %]
-        class="xlarge"
-        value="[% member_id %]"
-      [% END %]
-      />
-    </div>
+
+    [% IF member && member.member_id %]
+      <label for="">Member ID:</label>
+      <div class="input">
+        <input type="text" name="member_id" width="7" 
+          class="xlarge disabled"
+          placeholder="[% member.member_id %]"
+          disabled
+        />
+      </div>
+    [% ELSE %]
+    [% END %]
 
     <label for="">Name</label>
     <div class="input">
       <input type="text" class="xlarge" name="name" width="15" value="[% name || member.name %]" />
     </div>
+    [% IF is_admin %]
+      [% IF member && member.member_id %]
+      [% ELSE %]
+        <label for="">PIN</label>
+        <div class="input">
+          <input type="text" class="xlarge" name="PIN" width="4" value="[% PIN || member.PIN %]" />
+        </div>
+      [% END %]
+    [% ELSE %]
+      <label for="">PIN</label>
+      <div class="input">
+        <input type="text" class="xlarge" name="PIN" width="4" value="[% PIN || member.PIN %]" />
+      </div>
+    [% END %]
+
     [% IF is_admin %]
       <label for="">Private Notes</label>
       <div class="input">
@@ -82,7 +96,11 @@
     <div class="actions">
       <input type="submit" class="btn large primary" value="Save" />
       [% IF is_admin %]
-        <a href="/members/[% member.id %]" class="btn large">Cancel</a>
+        [% IF member && member.member_id %]
+          <a href="/members/[% member.id %]" class="btn large">Cancel</a>
+        [% ELSE %]
+          <a href="/members" class="btn large">Cancel</a>
+        [% END %]
       [% ELSE %]
         <a href="/member/view" class="btn large">Cancel</a>
       [% END %]

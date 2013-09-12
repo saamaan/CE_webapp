@@ -15,6 +15,8 @@ use Data::UUID;
 use LWP::UserAgent;
 use methods;
 
+use Data::Dumper;
+
 extends 'Biopay::Resource';
 
 has 'member_id' => (isa => 'Num', is => 'ro', required => 1);
