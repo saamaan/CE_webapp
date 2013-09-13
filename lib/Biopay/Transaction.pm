@@ -7,6 +7,16 @@ use Biopay::Member;
 
 use Switch;
 
+use Data::Dumper;
+
+#SP, will leave this hardcoded for now.
+#To be moved to DB later. It can have its own class and a website page to update..
+my $taxes =  {
+		'BC' => {motor_fuel => 0.15, carbon => 0.0767, sub_total => 0.05},
+		'Vancouver' => {motor_fuel => 0.26, carbon => 0.0767, sub_total => 0.05},
+		'Victoria' => {motor_fuel => 0.18, carbon => 0.0767, sub_total => 0.05}
+};
+
 extends 'Biopay::Resource';
 
 has 'epoch_time'                   => (isa => 'Num',  is => 'ro', required => 1);
@@ -15,6 +25,7 @@ has 'price_per_litre_diesel'       => (isa => 'Num',  is => 'ro', required => 1)
 has 'price_per_litre_biodiesel'    => (isa => 'Num',  is => 'ro', required => 1);
 has 'txn_id'                       => (isa => 'Str',  is => 'ro', required => 1);
 has 'mix'                          => (isa => 'Str',  is => 'ro', required => 1);
+has 'tax_area'					   => (isa => 'Str',  is => 'ro', required => 1);
 #SP
 #Don't need this without the cardlock
 #has 'cardlock_txn_id' => (isa => 'Str',  is => 'ro');
@@ -85,7 +96,7 @@ after 'paid' => sub {
 
 method as_hash {
     my $hash = {};
-    for my $key (qw/_id _rev epoch_time date price_per_litre_diesel 
+    for my $key (qw/_id _rev epoch_time date price_per_litre_diesel tax_area
 					price_per_litre_biodiesel txn_id paid Type
                     litres litres_diesel litres_biodiesel mix
 					member_id price pump paid_date payment_notes/) {
@@ -117,13 +128,15 @@ method _build_GST {
     # Calculate the HST from the total
     # 2012-03-23 - changing HST from 1.05% to 1.12% as per Louise @ RA
     # 2013-04-01 - changing the GST from 1.12% to 1.05 
-    sprintf '%0.02f', $self->price - ($self->price / 1.05);
+	my $tax = $taxes->{ $self->tax_area };
+	sprintf '%0.02f', $self->price - ( $self->price / (1.0 + $tax->{sub_total}) );
 }
 
 method _build_total_taxes {
-    sprintf '%0.02f', $self->GST
-        + $self->litres * 0.24   # Road Fuels Tax
-        + $self->litres * 0.0639 # Carbon Tax
+  	my $tax = $taxes->{ $self->tax_area };
+	sprintf '%0.02f', $self->GST
+        + $self->litres * $tax->{motor_fuel} #0.24   # Road Fuels Tax
+        + $self->litres * $tax->{carbon}; #0.0639 # Carbon Tax
 }
 
 method _build_tax_rate {
