@@ -27,14 +27,14 @@ $(function() {
   <h1>So you want to join the Biodiesel Co-op?</h1>
   <h1><small>Great! We'd love to have you!</small></h1>
 
-  <h2>What the Vancouver Biodiesel Co-op is:</h2>
+  <h2>What the Cowichan Biodiesel Co-op is:</h2>
   <ul>
     <li>A great place to buy pure B100 Biodiesel suitable for your diesel vehicle.</li>
     <li>A way to reduce your carbon footprint by using our recycled, locally sourced, ASTM certified fuel product.</li>
     <li>A volunteer run organization which purchases Biodiesel in bulk and makes it available to our members.</li>
   </ul>
 
-  <h2>What the Vancouver Biodiesel Co-op is not:</h2>
+  <h2>What the Cowichan Biodiesel Co-op is not:</h2>
   <ul>
     <li>A place to homebrew biodiesel from Waste Veggie Oil.</li>
     <li>A place to purchase Waste Veggie Oil.</li>
@@ -56,7 +56,7 @@ $(function() {
   <iframe width="420" height="315" src="https://www.youtube.com/embed/MXX02A9YxZo?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
   <p>&nbsp;</p>
   <div class="alert-message warning">
-    <p>If you have any questions or concerns, please email us at <a href="mailto:info@cowichanenergy.org">info@cowichanenergy.org</a>.</p>
+    <p>If you have any questions or concerns, please email us at <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.</p>
     <p>We will do all we can to help you make an informed choice about running biodiesel in your vehicle.</p>
   </div>
   <hr />
@@ -67,21 +67,21 @@ $(function() {
 </div>
 
 <div id="membershipagreement">
-    <h1>Vancouver Biodiesel Co-operative Membership Agreement</h1>
+    <h1>Cowichan Biodiesel Co-operative Membership Agreement</h1>
     [% INCLUDE message.tt %]
     <form action="/new-member" method="POST">
       <fieldset>
       <center>
         <p>This Membership Agreement ("Agreement") is made today, [% today_date %].</p>
-        <p><strong>Between: the Vancouver Biodiesel Cooperative (the "VBC")</strong></p>
+        <p><strong>Between: the Cowichan Biodiesel Cooperative (the "CBDC")</strong></p>
         <p><strong>AND member:</strong>
           <input id="fname" type="text" name="first_name" size="12" value="[% first_name %]" placeholder="First Name"/> 
           <input id="lname" type="text" name="last_name" size="12" value="[% last_name %]" placeholder="Last Name"/> 
         </p>
     </center>
-    <p>Member agrees herein to the purchase of one membership unit of the Vancouver Biodiesel Cooperative, in accordance with the following terms and conditions: </p>
+    <p>Member agrees herein to the purchase of one membership unit of the Cowichan Biodiesel Cooperative, in accordance with the following terms and conditions: </p>
     <ul>
-        <li>Member agrees to pay a one time amount of $25 to the VBC upon the date of this Agreement, which amount will compromise of the following:
+        <li>Member agrees to pay a one time amount of $25 to the CBDC upon the date of this Agreement, which amount will compromise of the following:
           <ul>
               <li>$10 annual coop membership fee, valid from this date forward one year</li>
               <li>$10 one time administration fee</li>
@@ -89,21 +89,21 @@ $(function() {
           </ul>
         </li>
         <li>Member agrees to pay an annual membership fee of $10 upon joining and on the first purchase of fuel after their annual membership has expired.</li>
-        <li>Member agrees to waive any and all liability and all rights of action which may arise now and in perpetuity against the VBC, the Recycling Alternative and any Directors or Employees thereof, and to indemnify them and hold them harmless from any liability or costs incurred as a result of using any products purchased from the VBC and/or Recycling Alternative.</li>
+        <li>Member agrees to waive any and all liability and all rights of action which may arise now and in perpetuity against the CBDC, the Recycling Alternative and any Directors or Employees thereof, and to indemnify them and hold them harmless from any liability or costs incurred as a result of using any products purchased from the CBDC and/or Recycling Alternative.</li>
     </ul>
 
-    <p>As a member of the VBC, <input id="fullname" type="text" size="24" value="" />, has the following individual rights and obligations:
+    <p>As a member of the CBDC, <input id="fullname" type="text" size="24" value="" />, has the following individual rights and obligations:
     <ul>
-      <li>Keep informed of VBC activity and provide input regarding issues on products (B100 biodiesel) and services provided from biodiesel pump (tank, card lock system, pump).</li>
-      <li>Let a VBC executive or Recycling Alternative representative know of any irregularities (in purchased product, vehicle or otherwise) that may effect other VBC members.</li>
-      <li>Inform the VBC executive, or a Recycling Alternative representative know of any changes to your contact information and vehicle information.</li>
+      <li>Keep informed of CBDC activity and provide input regarding issues on products (B100 biodiesel) and services provided from biodiesel pump (tank, card lock system, pump).</li>
+      <li>Let a CBDC executive or Recycling Alternative representative know of any irregularities (in purchased product, vehicle or otherwise) that may effect other CBDC members.</li>
+      <li>Inform the CBDC executive, or a Recycling Alternative representative know of any changes to your contact information and vehicle information.</li>
       <li>Upkeep of our facilities - please treat with care for long-term use.</li>
       <li>Be responsible for monitoring your engine's fuel filter.  For your benefit, we recommend initially changing your filter every 3 months.</li>
       <li>We recommend blending B100 biodiesel when temperatures fall below 10°C</li>
     </ul>
     </p>
 
-    <p>The VBC agrees to:
+    <p>The CBDC agrees to:
       <ul>
         <li>Issue 1 share certificate and membership number.</li>
         <li>Enroll member in our database and issue a card for the cardlock system and biodiesel pump starting on [% today_date %].</li>

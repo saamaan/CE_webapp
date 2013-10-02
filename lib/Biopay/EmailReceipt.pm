@@ -24,20 +24,26 @@ method send {
 
     my $total_price = 0;
     my $total_litres = 0;
-    my $total_tax = 0;
+#    my $total_tax = 0;
+    my $total_carbon_tax = 0;
+    my $total_motor_fuel_tax = 0;
     my $total_GST = 0;
     my $total_co2_reduction = 0;
     for (@{ $self->txns }) {
         $total_price  += $_->price;
         $total_litres += $_->litres;
-        $total_tax    += $_->total_taxes;
+#        $total_tax    += $_->total_taxes;
+        $total_carbon_tax += $_->carbon_tax;
+        $total_motor_fuel_tax += $_->motor_fuel_tax;
         $total_GST    += $_->GST;
         $total_co2_reduction += $_->co2_reduction;
     }
     my $dues     = sprintf '%0.02f', $self->dues;
     $total_price = sprintf '%0.02f', $total_price + $dues;
-    $total_tax   = sprintf '%0.02f', $total_tax;
-    $total_GST   = sprintf '%0.02f', $total_GST;
+#    $total_tax   = sprintf '%0.02f', $total_tax;
+	$total_carbon_tax   = sprintf '%0.02f', $total_carbon_tax;
+	$total_motor_fuel_tax   = sprintf '%0.02f', $total_motor_fuel_tax;
+	$total_GST   = sprintf '%0.02f', $total_GST;
 
     my $html = template 'email/receipt', {
         member => $self->member,
@@ -45,7 +51,9 @@ method send {
         ($dues > 0 ? (dues => $dues) : ()),
         total_price  => $total_price,
         total_litres => $total_litres,
-        total_taxes  => $total_tax,
+#        total_taxes  => $total_tax,
+        total_carbon_tax  => $total_carbon_tax,
+        total_motor_fuel_tax  => $total_motor_fuel_tax,
         total_GST    => $total_GST,
         total_co2_reduction => $total_co2_reduction,
     }, { layout => 'email' };

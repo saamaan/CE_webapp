@@ -287,16 +287,16 @@
                 <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable">
                 <tr>
                         <td align="center" valign="top">
-                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
+                        <table border="0" cellpadding="0" cellspacing="0" width="730" id="templateContainer">
                                 <tr>
                                 <td align="center" valign="top">
                                     <!-- // Begin Template Header \\ -->
-                                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateHeader">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td class="headerContent">
                                             
                                                 <!-- // Begin Module: Standard Header Image \\ -->
-                                                <!--                                                <img alt="Vancouver Biodiesel Co-op logo" src="http://billing.vancouverbiodiesel.org/images/header.png" style="max-width:600px;" id="headerImage campaign-icon" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext /> -->
+                                                <!--                                                <img alt="Cowichan Biodiesel Co-op logo" src="http://ec2-54-213-146-19.us-west-2.compute.amazonaws.com/images/logo.png" style="max-width:600px;" id="headerImage campaign-icon" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext /> -->
                                                 <!-- // End Module: Standard Header Image \\ -->
                                             </td>
                                         </tr>
@@ -307,7 +307,7 @@
                                 <tr>
                                 <td align="center" valign="top">
                                     <!-- // Begin Template Body \\ -->
-                                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                 
@@ -319,7 +319,7 @@
                                                                 [% content %]
 <hr />
 <p>
-For all co-op related questions, contact <a href="mailto:info@cowichanenergy.org">info@cowichanergy.org</a>.
+For all co-op related questions, contact <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.
 </p>
 <hr />
                                                             </div>
@@ -337,7 +337,7 @@ For all co-op related questions, contact <a href="mailto:info@cowichanenergy.org
                                 <tr>
                                 <td align="center" valign="top">
                                     <!-- // Begin Template Footer \\ -->
-                                        <table border="0" cellpadding="10" cellspacing="0" width="600" id="templateFooter">
+                                        <table border="0" cellpadding="10" cellspacing="0" width="100%" id="templateFooter">
                                         <tr>
                                                 <td valign="top" class="footerContent">
                                             
@@ -355,7 +355,7 @@ For all co-op related questions, contact <a href="mailto:info@cowichanenergy.org
                                                         <td valign="top" width="550">
                                                             <br />
                                                             <div mc:edit="std_footer">
-                                                                <em>Copyright &copy; 2011 <a href="http://cowichanenergy">Vancouver Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
+                                                                <em>Copyright &copy; 2013 <a href="http://ec2-54-213-146-19.us-west-2.compute.amazonaws.com">Cowichan Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
                                                             </div>
                                                             <br />
                                                         </td>

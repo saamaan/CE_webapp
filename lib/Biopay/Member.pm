@@ -199,7 +199,7 @@ method cancel {
     $self->freeze(forget_pin => 1); # Does an implicit save()
 
     my $unpaid = $self->unpaid_transactions;
-    email_board("VBC - Cancelled membership - " . $self->name,
+    email_board("CBDC - Cancelled membership - " . $self->name,
         "Sorry to report that " . $self->name . ", Co-op member #"
         . $self->id . " has cancelled their membership.\n\n"
         . "Reason: $reason\n\n"

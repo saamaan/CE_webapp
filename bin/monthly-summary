@@ -27,9 +27,11 @@ $start->set_minute(0);
 $start->set_second(0);
 my $end_time = $start + DateTime::Duration->new(months => 1) - DateTime::Duration->new(seconds => 1);
 my $start_epoch = $start->epoch;
-my $end_epoch   = $end_time->epoch;
+my $end_epoch = $end_time->epoch;
 
-
+ #SP for some reason without printing this, end_epoch will be all weird
+#print "start epoch: $start_epoch.\n";
+print "end epoch: $end_epoch.\n";
 
 # Number of new member signups
 # Amount of dues received
@@ -48,6 +50,9 @@ my %data = (
     fuel_purchases => 0,
     total_txns => 0,
     total_litres => 0,
+	total_GST => 0,
+	total_crabon_tax => 0,
+	total_motor_fuel_tax => 0
 );
 
 my $receipts = Biopay::Receipt->By_date({
@@ -84,6 +89,9 @@ my $txns = Biopay::Transaction->By_date({
 for my $t (@$txns) {
     $data{total_txns}++;
     $data{total_litres} += $t->litres;
+	$data{total_GST} += $t->GST;
+	$data{total_carbon_tax} += $t->carbon_tax;
+	$data{total_motor_fuel_tax} += $t->motor_fuel_tax;
 }
 
 my %costs;

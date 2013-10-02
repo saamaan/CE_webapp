@@ -39,7 +39,7 @@
       <dt><a href="/member/txns">Recent Purchases</a></dt>
     </dl>
   [% ELSE %]
-    <p>Our co-op sells 100% recycled, <a href="http://astm.org">ASTM certified</a>, locally sourced biodiesel fuel to our members.</p>
+    <p>Our co-op sells 100% recycled, locally sourced biodiesel fuel to our members.</p>
     <dl>
       <li><a href="/">Biodiesel Co-op Homepage</a></li>
       <li><a href="/biodiesel-faq">Co-op FAQ</a></li>

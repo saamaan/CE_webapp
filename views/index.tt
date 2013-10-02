@@ -3,9 +3,9 @@
 [% ELSIF member %]
   [% INCLUDE 'index-member.tt' %]
 [% ELSE %]
-  <h1>The Little Pump that Could</h1>
+  <h1>Welcome to the Cowichan Biodiesel Co-op</h1>
   [% INCLUDE message.tt %]
-<p>The Vancouver Biodiesel Co-op is proud to be the lower mainland's only consumer source of B100 pure, <a href="http://www.lowermainlandbiodiesel.com/">locally sourced Biodiesel</a>.</p>
+<p>The Cowichan Biodiesel Co-op is proud to be the lower mainland's only consumer source of B100 pure, <a href="http://www.lowermainlandbiodiesel.com/">locally sourced Biodiesel</a>.</p>
 
 <p>With the strong support from <a href="http://recyclingalternative.com">Recycling Alternative</a> we have a 4220 Litre pump with 24/7 cardlock access.  Members can purchase fuel at any time in any amount!  You could <a href="/new-member">sign up right now</a> and then head down for a fill-up!</p>
 <div class="well">
@@ -14,9 +14,9 @@
 </div>
 
 <address><strong>Pump Location</strong><br />
-Recycling Alternative<br />
-<a href="http://maps.google.ca/maps?q=360+Industrial+Ave,+Vancouver,+BC+V6A+2P3&hl=en&sll=49.287735,-123.045285&sspn=0.010931,0.041263&vpsrc=0&t=h&z=16">360 Industrial Ave, Vancouver.</a><br />
-<em>(near Terminal and Main in Vancouver.)</em><br />
+CVRD Solid Waste Management Facility<br />
+<a href="https://maps.google.com/maps?q=3900+Drinkwater+Road,+Cowichan+Valley&hl=en&ll=48.803112,-123.758836&spn=0.0012,0.003098&sll=37.0625,-95.677068&sspn=90.545818,42.451172&t=h&hnear=3900+Drinkwater+Rd,+North+Cowichan,+Cowichan+Valley,+British+Columbia+V9L+6P2,+Canada&z=19&iwloc=A">3900 Drinkwater Road, Cowichan Valley (Duncan),<br />
+Vancouver Island, Canada.</a><br />
 </address>
 
 <h3>What's the deal with Biodiesel?</h3>
@@ -25,14 +25,13 @@ Unlike "Waste Oil", Biodiesel requires NO special modifications to your diesel-e
 </p>
 
 <p>
-If you have questions, please check out our <a target="_blank" rel="nofollow" title="(external link)" href="/biodiesel-faq">FAQ</a> or email <a href="mailto:info@cowichanenergy.org">info@cowichanenergy.org</a>.
+If you have questions, please check out our <a target="_blank" rel="nofollow" title="(external link)" href="/biodiesel-faq">FAQ</a> or email <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.
 </p>
 
 <h2>Joining the Co-op</h2>
-<p>You can join the co-op online! After you watch the online orientation video and read our <a href="/biodiesel-faq">Biodiesel FAQ</a>, you can head down to the pump to fill up!  If you have questions before you're ready to join, please <a href="mailto:info@cowichanenergy.org">email us</a> and we'll do our best to help you out!</p>
+<p>You can join the co-op online! After you watch the online orientation video and read our <a href="/biodiesel-faq">Biodiesel FAQ</a>, you can head down to the pump to fill up!  If you have questions before you're ready to join, please <a href="mailto:info@smellbetter.org">email us</a> and we'll do our best to help you out!</p>
 
 
-<p>Our co-op has an signup fee of $15 plus $10/year for annual membership.  At this time, only members are able to purchase biodiesel.</p>
 </p>
 <div class="actions">
     <h3>Start enjoying the juice!</h3>

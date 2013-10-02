@@ -21,6 +21,14 @@
 <p>This month there were [% data.fuel_purchases %] fuel purchases buying a total of [% data.litres_purchased %] litres for $[% data.fuel_sum %].</p>
 <p>In addition, we received $[% data.dues_received %] in membership dues. (New + renewals)</p>
 
+<h2>Taxes</h2>
+<p>These are total taxes calculated from all the transactions:</p>
+<ul>
+  <li>Total GST: $[% data.total_GST %]</li>
+  <li>Total Carbon Tax: $[% data.total_carbon_tax %]</li>
+  <li>Total Motor Fule Tax: $[% data.total_motor_fuel_tax %]</li>
+</ul>
+
 <h2>Costs</h2>
 <p>In total we processed $[% data.txn_sum %] over [% data.txn_count %] transactions.</p>
 <p>The total cost to accept this money was $[% data.billing_cost %].</p>

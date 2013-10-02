@@ -43,6 +43,8 @@ with 'Biopay::Roles::HasMember';
 
 has 'GST'                 => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'total_taxes'         => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'carbon_tax'          => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'motor_fuel_tax'      => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'tax_rate'            => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'datetime'            => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'pretty_date'         => (is => 'ro', isa => 'Str',    lazy_build => 1);
@@ -130,6 +132,20 @@ method _build_GST {
     # 2013-04-01 - changing the GST from 1.12% to 1.05 
 	my $tax = $taxes->{ $self->tax_area };
 	sprintf '%0.02f', $self->price - ( $self->price / (1.0 + $tax->{sub_total}) );
+}
+
+#SP these two (carbon_tax and motor_fuel_tax attribs) 
+#are used for presentation purposes.
+#There may be small round off issues that cause the sum of these two
+#not to be equal to total_taxes...
+method _build_carbon_tax {
+  	my $tax = $taxes->{ $self->tax_area };
+	sprintf '%0.02f', $self->litres * $tax->{carbon};
+}
+
+method _build_motor_fuel_tax {
+  	my $tax = $taxes->{ $self->tax_area };
+	sprintf '%0.02f', $self->litres * $tax->{motor_fuel};
 }
 
 method _build_total_taxes {
