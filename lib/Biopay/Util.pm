@@ -5,6 +5,8 @@ use DateTime;
 use Digest::SHA1 qw/sha1_hex/;
 use base 'Exporter';
 
+use Data::Dumper;
+
 our @EXPORT_OK = qw/email_admin email_board random_pin now_dt host
                     beanstream_url beanstream_response_is_valid queue_email/;
 
@@ -94,7 +96,7 @@ sub beanstream_url {
 sub beanstream_response_is_valid {
     my $uri = shift || request->request_uri;
     $uri =~ s/.+?\?//;
-    (my $query_str = $uri) =~ s#(.+?)&hashValue=(.+)$#$1#;
+    (my $query_str = $uri) =~ s#(.+?)&hashValue=([0-9a-fA-F]+).*$#$1#;
     my $hv = $2;
     unless ($query_str and $hv) {
         debug "Couldn't extract the hashValue from the query_string in $uri";
