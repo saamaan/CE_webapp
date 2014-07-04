@@ -3,8 +3,12 @@
 [% ELSIF member %]
   [% INCLUDE 'index-member.tt' %]
 [% ELSE %]
-  <h1>Welcome to the Cowichan Biodiesel Co-op</h1>
+  <h1><font color="#006600">Welcome to the Cowichan Biodiesel Co-op</font></h1>
   [% INCLUDE message.tt %]
+
+<p><strong><font color="#006600" size="3">"We eat locally, and so do our cars"</font></strong><font color="#000000"><font size="3">&nbsp;</font><font size="2">is the Cowichan Bio-Diesel Co-op's (CB-DC) motto.&nbsp;Currently, our 200 plus members have easy access to 100% Bio-Diesel (B100) made from locally recycled waste cooking oil, and produced right here in the Cowichan Valley.</font><br><br><font size="2">CB-DC.s waste oil is collected from local restaurants who use vegetable oil. They are part of our&nbsp;</font><a title="" href="http://www.smellbetter.org/eat-better.html" style="font-size: small;">Eat Better Locations</a><font size="2">&nbsp;program. It.s a win-win situation, because when we EAT BETTER, our vehicles SMELL BETTER.&nbsp;</font><br><br><font size="2">Better because biodiesel is&nbsp;</font><a title="" href="http://www.smellbetter.org/biodiesel-faq.html" style="font-size: small;">more environmentally friendly</a><font size="2">&nbsp;than regular diesel. Better because our B100 is all biodiesel, not blended with petro-diesel like commercial sources. Better because the life-cycle carbon emissions are lower and the&nbsp;exhaust fumes are less toxic.&nbsp;Better because we don.t compete with food crops, we recycle waste streams into clean-burning sustainable fuel.&nbsp;</font></font><br></p>
+
+<!--
 <p>The Cowichan Biodiesel Co-op is proud to be the lower mainland's only consumer source of B100 pure, <a href="http://www.lowermainlandbiodiesel.com/">locally sourced Biodiesel</a>.</p>
 
 <p>With the strong support from <a href="http://recyclingalternative.com">Recycling Alternative</a> we have a 4220 Litre pump with 24/7 cardlock access.  Members can purchase fuel at any time in any amount!  You could <a href="/new-member">sign up right now</a> and then head down for a fill-up!</p>
@@ -12,24 +16,27 @@
 <h3>Real-time Co-op Stats</h3>
 <div class="vbc_stats"></div>
 </div>
+-->
 
-<address><strong>Pump Location</strong><br />
+<p><address><strong>Pump Location</strong><br />
 CVRD Solid Waste Management Facility<br />
 <a href="https://maps.google.com/maps?q=3900+Drinkwater+Road,+Cowichan+Valley&hl=en&ll=48.803112,-123.758836&spn=0.0012,0.003098&sll=37.0625,-95.677068&sspn=90.545818,42.451172&t=h&hnear=3900+Drinkwater+Rd,+North+Cowichan,+Cowichan+Valley,+British+Columbia+V9L+6P2,+Canada&z=19&iwloc=A">3900 Drinkwater Road, Cowichan Valley (Duncan),<br />
 Vancouver Island, Canada.</a><br />
-</address>
+</address></p>
 
+<!--
 <h3>What's the deal with Biodiesel?</h3>
 <p>
 Unlike "Waste Oil", Biodiesel requires NO special modifications to your diesel-engine car or truck. The biodiesel we use is made from locally sourced plant-based oils and is always <a href="http://www.astm.org/Standards/D975.htm">certified</a>. As biodiesel is much cleaner running in your engine, you should monitor your fuel filter (deposits from previous use of conventional diesel are flushed out). The more biodiesel you use, the longer your engine will last.
 </p>
+-->
 
 <p>
-If you have questions, please check out our <a target="_blank" rel="nofollow" title="(external link)" href="/biodiesel-faq">FAQ</a> or email <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.
+If you have questions, please check out our <a target="_blank" rel="nofollow" title="(external link)" href="http://www.smellbetter.org/biodiesel-faq">FAQ</a> or email <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.
 </p>
 
 <h2>Joining the Co-op</h2>
-<p>You can join the co-op online! After you watch the online orientation video and read our <a href="/biodiesel-faq">Biodiesel FAQ</a>, you can head down to the pump to fill up!  If you have questions before you're ready to join, please <a href="mailto:info@smellbetter.org">email us</a> and we'll do our best to help you out!</p>
+<p>You can join the co-op online! After you watch the online orientation video and read our <a href="http://www.smellbetter.org/biodiesel-faq">Biodiesel FAQ</a>, you can head down to the pump to fill up!  If you have questions before you're ready to join, please <a href="mailto:info@smellbetter.org">email us</a> and we'll do our best to help you out!</p>
 
 
 </p>

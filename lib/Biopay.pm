@@ -24,10 +24,15 @@ our $VERSION = '0.1';
 
 my %public_paths = (
     map { $_ => 1 }
-    qw( / /login /logout /terms /refunds /privacy /news),
-    '/forgot-password', '/admin-login', '/biodiesel-faq',
+    qw( / /login /logout ),
+    '/forgot-password', '/admin-login',
     '/new-member', '/stats-widget.js',
 );
+#SP needs modification with the new website	
+#    qw( / /login /logout /terms /refunds /privacy /news),
+#    '/forgot-password', '/admin-login', '/biodiesel-faq',
+#    '/new-member', '/stats-widget.js',
+#);
 
 sub is_public_path {
     my $path = request->path_info;
@@ -80,9 +85,10 @@ get '/' => sub {
         stats => Biopay::Stats->new,
     };
 };
-for my $page (qw(privacy refunds terms biodiesel-faq news)) {
-    get "/$page" => sub { template $page };
-}
+#SP this shouldn't be needed with the new website
+#for my $page (qw(privacy refunds terms biodiesel-faq news)) {
+#    get "/$page" => sub { template $page };
+#}
 
 hook before_template => sub {
     my $tokens = shift;
@@ -477,12 +483,6 @@ post '/members/create' => sub {
         $hs->eof;
     }
 
-#SP
-#open(DEBUG, ">> debug.log");
-#my $str;
-#$str = Dumper(params);
-#print DEBUG "In create member with: $str\n";
-#close(DEBUG);
 	#SP, don't allow anyone mess with ids, we know the next available id!
 	my $member;# = member();
 	#if ($member) {

@@ -20,6 +20,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="stylesheet" href="/css/bootstrap-1.0.0.css">
     <link rel="stylesheet" href="/css/style.css?even_better=oyes">
+    <link rel="stylesheet" href="/css/sites.css">
     <link rel="stylesheet" href="/css/style_smellbetter.css">
 <!--    The google analytics is commented out for now
   <script type="text/javascript">
@@ -62,18 +63,61 @@
             });
         });
     </script>
-    [% END %]
-    <div class="header">
-      <div id="topBar">
-			<a href="/">
-					<span id="motto">
-							We Eat Locally, And So Do Our Cars!
+	[% END %]
+	<div class="header-wrapper">
+			<div id="header">
+					<!--
+		 	<table id="header-right">
+				<tbody><tr>
+				<td class="phone-number"><span class="wsite-text">Join us</span></td>
+				<td class="social"><div style="text-align:left;"><div style="height:0px;overflow:hidden"></div>
+				<span class="wsite-social wsite-social-default"><a class="first-child wsite-social-item wsite-social-facebook" href="http://h" target="_blank"><span class="wsite-social-item-inner"></span></a><a class="wsite-social-item wsite-social-twitter" href="http://h" target="_blank"><span class="wsite-social-item-inner"></span></a><a class="last-child wsite-social-item wsite-social-rss" href="http://h" target="_blank"><span class="wsite-social-item-inner"></span></a></span>
+				<div style="height:0px;overflow:hidden"></div></div></td>
+				<td class="search"><span class="wsite-search"><form id="wsite-header-search-form" action="/apps/search" method="get"><input type="text" name="q" class="wsite-search-input" autocomplete="off" placeholder="Search"><span class="wsite-search-button"><span class="wsite-search-button-inner"></span></span></form></span></td>
+				</tr>
+</tbody></table>
+-->
+		<div style="clear:both;"></div>
+		</div>
+		<div class="container">
+			<span class="wsite-logo"><a href="/"><span id="wsite-title">We Eat Locally, And So Do Our Cars!</span></a></span>
+		</div>
+
+	</div>
+	</div>
+	</div>
+<!--
+<div class="header">
+
+
+<div id="topBar">
+<div class="wsite-logo">
+<a href="/">
+<span id="wsite-title">
+We Eat Locally, And So Do Our Cars!
 					</span>
-			</a>
-      </div>
-    </div>
-    <div class="container">
-      <div class="container-fluid">
+				</a>
+			</div>
+ 	     </div>
+ </div>
+ -->
+ <div id="wrapper">
+		 <div class="container">
+				 <div id="topnav">
+
+						 
+						 <ul class="wsite-menu-default"><li id="active" style="position: relative;" class="wsite-nav-0"><a href="/" style="position: relative;">Home</a></li><li id="pg783827190710286416" style="position: relative;" class="wsite-nav-1"><a href="http://www.smellbetter.org/about-us.html" style="position: relative;">About Us</a></li><li id="pg126258667878333921" style="position: relative;" class="wsite-nav-2"><a href="/new-member" style="position: relative;">Join the Co-op!</a></li><li id="pg728788070800639031" style="position: relative;" class="wsite-nav-3"><a href="http://www.smellbetter.org/news--media.html" style="position: relative;">News &amp; Media</a></li><li id="pg305197339960528015" class="wsite-nav-4" style="position: relative;"><a href="http://www.smellbetter.org/cb-dc-newsletters.html" style="position: relative;">CB-DC Newsletters</a></li><li id="pg525632905424526988" style="position: relative;" class="wsite-nav-5"><a href="http://www.smellbetter.org/events.html" style="position: relative;">Events </a></li><li id="pg431105456227704020" style="position: relative;" class="wsite-nav-6"><a href="http://www.smellbetter.org/testimonials.html" style="position: relative;">Testimonials</a></li></ul>
+						 
+		<div style="clear:both"></div>
+		</div>
+	</div>
+	    <div id="page">
+	    <div class="container">
+			<div class="container-fluid">
+					<div id="main">
+							<!--<div id ="content"> -->
+
+
         [% IF !params.printable %]
 <!--	  <header>
             <a class="headerimg" href="/"><img id="headerimg" src="/images/header-wrapper-orange.jpg"
@@ -86,11 +130,15 @@
 
         <div class="content">
           [% content %]
-        </div>
+		  <!--  </div>-->
+  </div>
+</div>
 		[% IF !params.printable %]
 			[% INCLUDE layouts/footer.tt %]
 		[% END %]
-      </div>
+</div>
+</div>
+
 <!--
       [% IF !params.printable %]
       
@@ -102,6 +150,7 @@
 	  [% END %]
   -->
 
+	</div>
 	</div>
 
     <script src="/javascripts/plugins.js"></script>

@@ -24,6 +24,7 @@ $(function() {
 </script>
 
 <div id="intro">
+<!--
   <h1>So you want to join the Biodiesel Co-op?</h1>
   <h1><small>Great! We'd love to have you!</small></h1>
 
@@ -40,6 +41,23 @@ $(function() {
     <li>A place to purchase Waste Veggie Oil.</li>
     <li>A place to purchase Petro-diesel or Bio-diesel blends.</li>
   </ul>
+-->
+  <font color="#006600" size="5"><strong>Join the Cowichan Bio-Diesel Co-operative</strong></font>
+  <div class="paragraph">
+    <font color="#000000">Joining the Cowichan Bio-Diesel Co-op is a vote for alternative energy solutions. By supporting local renewable fuels like biodiesel, community members can change our energy landscape and reduce our carbon footprint. &nbsp;<br><br>At the Cowichan Bio-Diesel Co-op, we believe that individuals can change the world, but only if we work together. Join the CB-DC in our quest to localize and diversify our community energy providers. With around 200 members from Victoria to Cortez Island, it's members like you that make all this possible.<br><br>With the opening of our new community-scale Cowichan Biofuel Facility, the recent International Collective Biofuels Conference, and future projects in the work, there has never been a better time to join forces with your local alternative energy provider. Start your journey to a more sustainable future today!</font><br><br>
+	<br><br/>
+	<strong style="">Refund Policy:</strong>
+	<br><br/>
+	The fuel provided by the CBDC is always ASTM Certified. However, it is up to the owner's discretion to appropriately blend the fuel depending on their individual vehicle and the weather. CBDC will not be held responsible for rich biodiesel blends that cause vehicle problems including but not limited to: rubber seal problems, fuel line problems, gasket problems, warranty violations, injector problems, fuel filter clogs. It is up to each member to ensure their vehicle is mechanically sound and able to run biodiesel.&nbsp;The pump and cardlock is regularly tested for accuracy, however in cold weather the biodiesel can gel and stop flowing. Members should be aware of cold temperature conditions and should follow signage at the pump indicating conditions.
+	<br><br/>
+	<span style=""></span>
+	CBDC will not issue refunds for fuel purchases and all transactions are made in CAD only.
+	<br><br/>
+	<span style=""></span>
+	<br><br/>
+	<span style=""></span>
+  </div>
+  
 
   <div class="actions">
     <a href="#" id="introbtn" class="btn large primary">I want to join the co-op!</a>
@@ -51,11 +69,11 @@ $(function() {
   <div class="alert-message info">
     <p><strong>To join the Biodiesel co-op,</strong> we request that you watch the following orientation video.</p>
     <p><strong>If you are new to biodiesel,</strong> you should also <a
-    href="/biodiesel-faq" target="_blank">read our Biodiesel FAQ</a>.
+    href="http://www.smellbetter.org/biodiesel-faq" target="_blank">read our Biodiesel FAQ</a>.
   </div>
   <iframe width="420" height="315" src="https://www.youtube.com/embed/MXX02A9YxZo?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
   <p>&nbsp;</p>
-  <div class="alert-message warning">
+  <div class="alert-message info">
     <p>If you have any questions or concerns, please email us at <a href="mailto:info@smellbetter.org">info@smellbetter.org</a>.</p>
     <p>We will do all we can to help you make an informed choice about running biodiesel in your vehicle.</p>
   </div>
@@ -67,10 +85,24 @@ $(function() {
 </div>
 
 <div id="membershipagreement">
+<!--
     <h1>Cowichan Biodiesel Co-operative Membership Agreement</h1>
+-->
+  <h1>
+    <font color="#006600" size="4"><strong>Get your Cowichan Bio-Diesel Co-op Membership Here!</strong></font>
+  </h1>
+
     [% INCLUDE message.tt %]
     <form action="/new-member" method="POST">
       <fieldset>
+      <div class="paragraph">
+        <font size="3"><font color="#006600">Congratulations on supporting the Cowichan Valley's source of local alternative fuel!</font><br></font><font color="#000000">The annual fee for renewing your CB-DC membership is $60. If you are joining for the first time, there's a one-time $5 charge for buying a share of the co-op. If you are an organization, the annual fee is $120 and $125 for a new member.</font><font color="#006600">*</font><font color="#000000"> If you are joining as a new member you will need to purchase your&nbsp;new Cardlock access card with P.I.N.</font><strong><font color="#ff0000" size="+0">**</font></strong><br><br>
+      </div>
+      <div class="paragraph">
+        <font color="#006600">*We are piloting automated payment options using Paypal for member convenience. Paypal charges a 3.2% fee for all transactions, which is reflected in the prices below and in the biodiesel purchase prices online. You can pay using Paypal at any time, or come to our office during business hours to avoid the additional fee.<br></font><br><font color="#cc0000">**There is a $25 deposit for each cardlock access card so don't lose it! If you pay with Paypal, you are still only eligible for a $25 deposit refund.<br></font><br>
+      </div>
+
+<!--
       <center>
         <p>This Membership Agreement ("Agreement") is made today, [% today_date %].</p>
         <p><strong>Between: the Cowichan Biodiesel Cooperative (the "CBDC")</strong></p>
@@ -113,11 +145,13 @@ $(function() {
         <li>Respect and protect privacy of member and not to release any personal, corporate or otherwise private information without prior consent.</li>
       </ul>
     </p>
+-->
 
-    <p>Signed this [% today_date %].</p>
-    <label for="">Member name:</label>
-    <div class="input"><input type="text" id="fullname2" /></div>
-
+    <p>Signed this on [% today_date %].</p>
+    <label for="">First name:</label>
+    <div class="input"><input type="text" class="xlInput" name="first_name" size="12" value="[% first_name %]" /></div> 
+    <label for="">Last name:</label>
+    <div class="input"><input type="text" class="xlInput" name="last_name" size="12" value="[% last_name %]" /></div>
     <label for="">Home Address:</label>
     <div class="input"><input type="text" class="xlInput" name="address" size="40" value="[% address %]" /></div>
     <label for="">Email Address:</label>
@@ -135,7 +169,7 @@ $(function() {
           <label>
             <input type="checkbox" name="chk_video" value="1" />
             <span>
-              … I have watched the orientation video in it's entirety.
+              … I have read and understand the <a href="/bio-diesel_use_guidelines_may_2012.pdf">Biodiesel Use Guidelines</a>.
             </span>
           </label>
         </li>
@@ -143,7 +177,7 @@ $(function() {
           <label>
             <input type="checkbox" name="chk_vehicle" value="1" />
             <span>
-              … I understand the implications of using biodiesel in my vehicle.
+             … I understand the implications of using biodiesel in my vehicle.
             </span>
           </label>
         </li>
@@ -151,7 +185,7 @@ $(function() {
           <label>
             <input type="checkbox" name="chk_terms" value="1" />
             <span>
-              … I read the membership agreement and agree to it's terms.
+              … I read the <a href="/membership_agreement-oct_2010.pdf">membership agreement</a> and agree to it's terms.
             </span>
           </label>
         </li>

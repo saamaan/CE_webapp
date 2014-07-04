@@ -13,6 +13,8 @@ use Biopay::PaymentProcessor;
 use Biopay::Util qw/email_admin email_board host/;
 use Try::Tiny;
 
+use Data::Dumper;
+
 my $daemon = Biopay::Daemon->new(
     name => 'job-runner',
     want_stream => 1,
@@ -180,8 +182,8 @@ sub check_for_unpaid_txns {
             }
 
             for my $mid (keys %member) {
-                if ($member_total{$mid} < 5) {
-                    # print " (Member $mid has < \$5, skipping) ";
+                if ($member_total{$mid} < 0) {
+                    print " (Member $mid has < \$5, skipping) ";
                     next;
                 }
                 my $txns = $member{$mid};
