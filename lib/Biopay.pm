@@ -9,6 +9,7 @@ use Biopay::Member;
 use Biopay::PotentialMember;
 use Biopay::Stats;
 use Biopay::Prices;
+use Biopay::Tank_Tracking;
 use AnyEvent;
 use DateTime;
 use DateTime::Duration;
@@ -731,10 +732,63 @@ sub update_payment_profile_message {
     }
 }
 
+get '/tank-tracking' => sub {
+	# one location for now..
+	my $pump_loc = "Duncan";
+	my $tank_tracking = Biopay::Tank_Tracking->By_location($pump_loc);
+    template 'tank-tracking', {
+		pump_loc => $pump_loc,
+        current_biodiesel_vol => $tank_tracking->{biodiesel_vol},
+        current_diesel_vol => $tank_tracking->{diesel_vol},
+        current_biodiesel_warn_vol => $tank_tracking->{biodiesel_warn_vol},
+        current_diesel_warn_vol => $tank_tracking->{diesel_warn_vol},
+    };
+};
+post '/tank-tracking' => sub {
+	# one location for now..
+	my $pump_loc = 'Duncan';
+    my $new_diesel_vol = params->{new_diesel_vol};
+    my $new_biodiesel_vol = params->{new_biodiesel_vol};
+    my $new_diesel_warn_vol = params->{new_diesel_warn_vol};
+    my $new_biodiesel_warn_vol = params->{new_biodiesel_warn_vol};
+    my $tank_tracking = Biopay::Tank_Tracking->By_location($pump_loc);
+	my $msg = '';
+    unless ($new_diesel_vol and $new_diesel_vol =~ m/^[-]?[0-9]+$/) {
+		$msg .= "Diesel volume doesn't look valid. ";
+    }
+    unless ($new_biodiesel_vol and $new_biodiesel_vol =~ m/^[-]?[0-9]+$/) {
+		$msg .= "Biodiesel volume doesn't look valid. ";
+    }
+    unless ($new_diesel_warn_vol and $new_diesel_warn_vol =~ m/^[0-9]+$/) {
+		$msg .= "Diesel warn volume doesn't look valid. ";
+    }
+    unless ($new_biodiesel_warn_vol and $new_biodiesel_warn_vol =~ m/^[0-9]+$/) {
+		$msg .= "Biodiesel warn volume doesn't look valid. ";
+    }
+	if ($msg) {
+			$msg .= "Try again.";
+	}
+    else {
+		$tank_tracking->update_all($new_diesel_vol, $new_biodiesel_vol, 
+									$new_diesel_warn_vol, $new_biodiesel_warn_vol);
+		$tank_tracking->save;
+		$msg = "Updated. Diesel vol: $new_diesel_vol L, Biodiesel vol: $new_biodiesel_vol L, Diesel warn vol: $new_diesel_warn_vol L, and Biodiesel warn vol: $new_biodiesel_warn_vol L.";
+    }
+    template 'tank-tracking', {
+		pump_loc => $pump_loc,
+        current_biodiesel_vol => $tank_tracking->{biodiesel_vol},
+        current_diesel_vol => $tank_tracking->{diesel_vol},
+        current_biodiesel_warn_vol => $tank_tracking->{biodiesel_warn_vol},
+        current_diesel_warn_vol => $tank_tracking->{diesel_warn_vol},
+        message => $msg,
+    };
+};
+
 get '/fuel-price' => sub {
+	my $fuel_price = Biopay::Prices->new->fuel_price;
     template 'fuel-price', {
-        current_biodiesel_price => Biopay::Prices->new->fuel_price->{biodiesel},
-        current_diesel_price => Biopay::Prices->new->fuel_price->{diesel},
+        current_biodiesel_price => $fuel_price->{biodiesel},
+        current_diesel_price => $fuel_price->{diesel},
     };
 };
 post '/fuel-price' => sub {

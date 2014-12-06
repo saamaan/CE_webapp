@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+use 5.14.1;
+use FindBin;
+use Cwd qw/realpath/;
+use lib "$FindBin::Bin/../lib";
+use Getopt::Long;
+use Biopay::Util qw/email_admin email_board host/;
+use Biopay::Tank_Tracking;
+use Dancer qw/:syntax/;
+use Dancer::Plugin::Email;
+use Try::Tiny;
+use Data::Dumper;
+
+BEGIN {
+    Dancer::Config::setting('appdir',realpath("$FindBin::Bin/.."));
+    Dancer::Config::setting('views',realpath("$FindBin::Bin/../views"));
+    Dancer::Config::load();
+}
+
+my $dont_send_email;
+GetOptions(
+    'd|dont-send' => \$dont_send_email,
+);
+
+my $location = shift || die "USAGE: $0 <pump_location>";;
+
+my $tank_tracking = Biopay::Tank_Tracking->By_location($location);
+if ($tank_tracking) {
+	my $warning = $tank_tracking->warning;
+	if ($warning eq 'normal') {
+		print "There is something wrong here: $warning\n";
+		next;
+	}
+	if ($dont_send_email) {
+		print $tank_tracking->pump . ' tank warning is ' . $warning . ".\n";
+	}
+	else {
+		try {
+				# my $html = template "email/tank_low", {
+				# 	diesel_vol => $tank_tracking->{diesel_vol},
+				# 	biodiesel_vol => $tank_tracking->{biodiesel_vol},
+				# 	pump_location => $tank_tracking->{pump},
+				# 	warning_type => $warning,
+				# }, { layout => 'email' };
+				# email {
+				# 	to => config->{board_email},
+				# 	from => config->{email_from},
+				# 	subject => 	'Tank Low Warning',
+				# 	type => 'html',
+				# 	body => $html,
+				# };
+			my $body = $tank_tracking->warning . " level(s) critical.\nDiesel vol " . $tank_tracking->diesel_vol . "L.\nBiodiesel at " . $tank_tracking->biodiesel_vol . "L.\n";
+			email_board($tank_tracking->pump . " Tank Low Warning", $body);
+			$tank_tracking->warning_sent(1);
+			$tank_tracking->save;
+		}
+		catch {
+			print "Failed to send tank low email: $_.\n";
+			email_admin("Failed to send tank low email to the board: $_.");
+		};
+	}
+}

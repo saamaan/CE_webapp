@@ -1,0 +1,13 @@
+<h2>Tank Low at [% pump_location %] location...</h2>
+
+[% IF warning_type == 'diesel' || warning_type == 'both' %]
+  <p><strong>Diesel tank critical: [% diesel_vol %] L.</strong></p>
+[% ELSE %]
+  <p>Diesel tank: [% diesel_vol %] L.</p>
+[% END %]
+
+[% IF warning_type == 'biodiesel' || warning_type == 'both' %]
+  <p><strong>Biodiesel tank critical: [% biodiesel_vol %] L.</strong></p>
+[% ELSE %]
+  <p>Biodiesel tank: [% biodiesel_vol %] L.</p>
+[% END %]

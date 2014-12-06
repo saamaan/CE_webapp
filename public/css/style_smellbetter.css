@@ -8,6 +8,11 @@ label#new_price {
 	width: auto;
 }
 
+/*labels for 'Tank Tracking' page*/
+label#new_vol {
+	width: auto
+}
+
 #motto {	
     font-size: 49px;
     color: #ffffff;

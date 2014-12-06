@@ -11,6 +11,7 @@ use Biopay::EmailReceipt qw/parse_email/;
 use Biopay::Transaction;
 use Biopay::PaymentProcessor;
 use Biopay::Util qw/email_admin email_board host/;
+use Biopay::Tank_Tracking;
 use Try::Tiny;
 
 use Data::Dumper;
@@ -61,9 +62,15 @@ my $daemon = Biopay::Daemon->new(
             after => 2.0, interval => 60,
             cb => \&check_for_unpaid_txns,
         ),
+        AnyEvent->timer(
+            after => 32.0, interval => 60,
+            cb => \&check_critical_tanks,
+        ),
+
     ],
     update_handlers => {
         qr/^(member|txn):/ =>\&check_for_unpaid_txns,
+		qr/^tank_tracking:/ => \&check_critical_tanks,
     }
 );
 
@@ -161,6 +168,19 @@ sub register_member {
         debug $err;
         email_admin("Error registering new member $email", "Error: $err");
     };
+}
+
+sub check_critical_tanks {
+	print 'T';
+	Biopay::Tank_Tracking->All_critical_unnotified(
+		sub {
+			my $critical_tanks = shift;
+			for my $tt (@$critical_tanks) {
+				print 'W';
+				run('tank-status', $tt->pump);
+			}
+		}
+	);
 }
 
 sub check_for_unpaid_txns {
