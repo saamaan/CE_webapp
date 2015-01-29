@@ -15,9 +15,18 @@ has 'biodiesel_sold_alltime' => (is => 'ro', isa => 'Num', lazy_build => 1);	#ma
 has 'active_members' => (is => 'ro', isa => 'Num', lazy_build => 1);			#may not be necessary as a separate attrib, but added it anyway
 
 method _build_active_members    { view_single_num('members/active_count', @_) }
-method _build_fuel_sold_alltime { view_single_obj('txns/litres_by_member' ) }
 method _build_diesel_sold_alltime { $self->fuel_sold_alltime->{litres_diesel} }
 method _build_biodiesel_sold_alltime { $self->fuel_sold_alltime->{litres_biodiesel} }
+method _build_fuel_sold_alltime {
+		#DB might be empty at first or something else might go wrong..
+		my $ret = view_single_obj('txns/litres_by_member' );
+		unless ( exists $ret->{litres} && exists $ret->{litres_diesel} && exists $ret->{litres_biodiesel} ) {
+			$ret = { litres_diesel => 0, litres_biodiesel => 0, litres => 0 };
+		}
+
+		return $ret;
+}
+
 
 method fuel_sales      { view_single_num('txns/fuel_sales', @_) }
 method co2_reduction   { return int($self->fuel_sold_alltime->{litres_biodiesel} * 1.94) }
