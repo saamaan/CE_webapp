@@ -296,7 +296,7 @@
                                             <td class="headerContent">
                                             
                                                 <!-- // Begin Module: Standard Header Image \\ -->
-                                                <!--                                                <img alt="Cowichan Biodiesel Co-op logo" src="http://ec2-54-213-146-19.us-west-2.compute.amazonaws.com/images/logo.png" style="max-width:600px;" id="headerImage campaign-icon" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext /> -->
+                                                <!--                                                <img alt="Cowichan Biodiesel Co-op logo" src="https://biopay.org/images/logo.png" style="max-width:600px;" id="headerImage campaign-icon" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext /> -->
                                                 <!-- // End Module: Standard Header Image \\ -->
                                             </td>
                                         </tr>
@@ -346,7 +346,7 @@ For all co-op related questions, contact <a href="mailto:info@smellbetter.org">i
                                                     <tr>
                                                         <td colspan="2" valign="middle" id="social">
                                                             <div mc:edit="std_social">
-                                                                &nbsp;<a href="ec2-54-213-146-19.us-west-2.compute.amazonaws.com">Visit our website</a>&nbsp;
+                                                                &nbsp;<a href="biopay.org">Visit our website</a>&nbsp;
 
                                                             </div>
                                                         </td>
@@ -355,7 +355,7 @@ For all co-op related questions, contact <a href="mailto:info@smellbetter.org">i
                                                         <td valign="top" width="550">
                                                             <br />
                                                             <div mc:edit="std_footer">
-                                                                <em>Copyright &copy; 2013 <a href="http://ec2-54-213-146-19.us-west-2.compute.amazonaws.com">Cowichan Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
+                                                                <em>Copyright &copy; 2013 <a href="https://www.biopay.org">Cowichan Biodiesel Co-op</a>, All rights reserved.</em>&nbsp;
                                                             </div>
                                                             <br />
                                                         </td>

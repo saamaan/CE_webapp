@@ -144,7 +144,7 @@ We Eat Locally, And So Do Our Cars!
       
         <footer style="padding: 30px 0 0 0">
           <p><a href="/terms">Terms of Service</a> | <a href="/refunds">Refund Policy</a> | <a href="/privacy">Privacy Policy</a></p>
-          <p>This service was created by <a href="www.kinsolresearch.com">Kinsol Research Inc.</a> for the <a href="ec2-54-213-146-19.us-west-2.compute.amazonaws.com">Cowichan Bio-diesel Co-op</a>.</p>
+          <p>This service was created by <a href="www.kinsolresearch.com">Kinsol Research Inc.</a> for the <a href="biopay.org">Cowichan Bio-diesel Co-op</a>.</p>
 	  </footer>
 
 	  [% END %]
