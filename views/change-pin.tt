@@ -11,7 +11,7 @@
 
       <div class="actions">
         <input type="submit" class="btn large primary" value="Change PIN" />
-        <a class="btn large" href="/members/[% member.member_id %]">Oops, go back.</a>
+        <a class="btn large" href="[% back_url %]">Oops, go back.</a>
       </div>
     </fieldset>
   </form>
