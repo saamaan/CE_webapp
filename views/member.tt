@@ -91,6 +91,7 @@
               <a class="btn" href="[% muri %]/freeze">Freeze</a> &middot;
             [% END %]
             <a class="btn" href="[% muri %]/change-pin">Change PIN</a> &middot;
+            <a class="btn" href="[% muri %]/change-individual-price">Change Individual Price</a> &middot;
             <a class="btn" href="[% muri %]/cancel">Cancel Membership</a>
             </p>
             <p>

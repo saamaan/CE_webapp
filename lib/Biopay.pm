@@ -440,6 +440,7 @@ get '/members' => sub {
         redirect "/members/$mid" if $mid =~ m/^\d+$/;
     }
     my %p = (members => Biopay::Member->All);
+	info Dumper(%p);
     $p{members} = [ sort { $a->id <=> $b->id } @{$p{members}} ];
 
     if (params->{show_inactive}) {
@@ -463,10 +464,13 @@ sub new_member_dates {
 }
 
 get '/members/create' => sub {
+	my $default_fuel_price = Biopay::Prices->new->fuel_price;
     template 'member-create', {
 		#SP, don't allow anyone mess with ids, we know the next available id!
 		#member_id => params->{member_id},
         new_member_dates(),
+		price_per_litre_diesel => $default_fuel_price->{diesel},
+		price_per_litre_biodiesel => $default_fuel_price->{biodiesel},
     };
 };
 
@@ -477,7 +481,7 @@ post '/members/create' => sub {
 	#'PIN' has to be added.
 	#my @member_attrs = qw/member_id name phone_num email 
 	#               start_date dues_paid_until_date payment_hash/;
-    my @member_attrs = qw/name phone_num email PIN start_date dues_paid_until_date address/;
+    my @member_attrs = qw/name phone_num email PIN start_date dues_paid_until_date address price_per_litre_diesel price_per_litre_biodiesel/;
     my %hash;
     for my $field (@member_attrs) {
         $hash{$field} = $hs->parse(params->{$field}) if defined params->{$field};
@@ -619,11 +623,56 @@ post '/members/:member_id/send-email' => sub {
 };
 
 
+get '/members/:member_id/change-individual-price' => sub {
+    my $m = member();
+    template 'fuel-price', {
+        member => $m,
+        current_biodiesel_price => $m->price_per_litre_biodiesel,
+        current_diesel_price => $m->price_per_litre_diesel,
+		back_url => '/members/' . $m->id,
+    };
+};
+
+post '/members/:member_id/change-individual-price' => sub {
+    my $member = member();
+    return handle_individual_price_change(
+        member => $member,
+		diesel_ppl => params->{new_diesel_price},
+		biodiesel_ppl => params->{new_biodiesel_price},
+        good_url => '/members/' . $member->id,
+        bad_url  => '/members/' . $member->id . '/change-individual-price',
+    );
+};
+
+sub handle_individual_price_change {
+	my %p = @_;
+    my $msg = '';
+    unless ($p{diesel_ppl} and $p{diesel_ppl} =~ m/^[123]\.\d{2}$/) {
+		$msg .= "Diesel price doesn't look valid. ";
+    }
+    unless ($p{biodiesel_ppl} and $p{biodiesel_ppl} =~ m/^[123]\.\d{2}$/) {
+		$msg .= "Biodiesel price doesn't look valid. ";
+    }
+	if ($msg) {
+			$msg .= "Try again.";
+			session message => $msg;
+			return redirect $p{bad_url};
+	}
+    else {
+		$p{member}->price_per_litre_diesel( $p{diesel_ppl} );
+		$p{member}->price_per_litre_biodiesel( $p{biodiesel_ppl} );
+		$p{member}->save;
+		session message => 'Individial price was updated for member ' . $p{member}->member_id . '. Diesel price: $' . $p{diesel_ppl} . ' per Litre, Biodiesel price: $' . $p{biodiesel_ppl} . ' per Litre.';
+		return redirect $p{good_url};
+    }
+}
+
 get '/members/:member_id/change-pin' => sub {
     my $m = member();
     template 'change-pin', {
         member => $m,
         action => '/members/' . $m->id . '/change-pin',
+		back_url => '/members/' . $m->id,
     };
 };
 
@@ -784,14 +833,15 @@ post '/tank-tracking' => sub {
     };
 };
 
-get '/fuel-price' => sub {
+get '/default-fuel-price' => sub {
 	my $fuel_price = Biopay::Prices->new->fuel_price;
     template 'fuel-price', {
         current_biodiesel_price => $fuel_price->{biodiesel},
         current_diesel_price => $fuel_price->{diesel},
+		back_url => '/',
     };
 };
-post '/fuel-price' => sub {
+post '/default-fuel-price' => sub {
     my $new_diesel_price = params->{new_diesel_price};
     my $new_biodiesel_price = params->{new_biodiesel_price};
     my $prices = Biopay::Prices->new;
@@ -812,6 +862,7 @@ post '/fuel-price' => sub {
     template 'fuel-price', {
         current_biodiesel_price => $prices->fuel_price->{biodiesel},
         current_diesel_price => $prices->fuel_price->{diesel},
+		back_url => '/',
         message => $msg,
     };
 };
@@ -891,6 +942,7 @@ get '/member/change-pin' => sub {
     template 'change-pin', {
         member => session_member(),
         action => '/member/change-pin',
+		back_url => '/member/view',
     };
 };
 

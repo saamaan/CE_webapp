@@ -43,6 +43,18 @@
     </div>
     [% IF is_admin %]
       [% IF member && member.member_id %]
+        <label for="">Diesel price</label>
+        <div class="input">
+          <input type="text" class="xlarge" name="price_per_litre_diesel" width="4" value="[% price_per_litre_diesel || member.price_per_litre_diesel %]" />
+        </div>
+        <label for="">Biodiesel price</label>
+        <div class="input">
+          <input type="text" class="xlarge" name="price_per_litre_biodiesel" width="4" value="[% price_per_litre_biodiesel || member.price_per_litre_biodiesel %]" />
+        </div>
+      [% END %]
+    [% END %]
+    [% IF is_admin %]
+      [% IF member && member.member_id %]
       [% ELSE %]
         <label for="">PIN</label>
         <div class="input">

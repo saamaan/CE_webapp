@@ -17,7 +17,7 @@
     <dl>
     <li><a href="/">Admin Home</a></li>
     <li><a href="/mass-email">Email all members</a></li>
-    <li><a href="/fuel-price">Change Fuel Price</a></li>
+    <li><a href="/default-fuel-price">Change Default Fuel Price</a></li>
     <li><a href="/tank-tracking">Track Fuel Tanks</a></li>
     <li><a href="/reports">View Reports</a></li>
     <li><a href="https://docs.google.com/document/d/1LJRiLseM-dMmISrUaiCrtF5w5qrSDMYRHQGB4U5lWcM/edit?hl=en_US">System Documentation</a></li>
