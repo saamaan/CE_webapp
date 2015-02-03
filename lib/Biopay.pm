@@ -1136,6 +1136,17 @@ post '/new-member' => sub {
         }
     };
 
+	my ($signup_price, $annual_price);
+	unless ($msg) {
+		try {
+			my $prices = Biopay::Prices->new;
+			$signup_price = $prices->signup_price;
+			$annual_price = $prices->annual_membership_price;
+		} catch {
+			$msg = 'Error retrieving prices.';
+		};
+	}
+
     if ($msg) {
         return forward '/new-member', {
             show_agreement => 1,
@@ -1145,9 +1156,11 @@ post '/new-member' => sub {
         }, { method => 'GET' };
     }
 
+
     return template 'new-member-payment', {
         member => $member,
         payment_url => $member->payment_setup_url,
+		sign_up_fee => ($signup_price + $annual_price),
     };
 };
 
@@ -1155,7 +1168,11 @@ get '/new-member/:hash' => sub {
     my $hash = params->{hash};
     my ($msg, $pm, $member);
 
+	# This should normally work if we get to this point..
+	my $prices = Biopay::Prices->new;
+
     try {
+
         die "Sorry, that request does not look valid."
             unless beanstream_response_is_valid();
 
@@ -1167,7 +1184,7 @@ get '/new-member/:hash' => sub {
         $msg = update_payment_profile_message($pm);
         if ($pm->payment_hash) {
             debug "Payment profile for " .$pm->email. " was created.";
-            $member = $pm->make_real;
+            $member = $pm->make_real($prices->price_per_litre_diesel, $prices->price_per_litre_biodiesel);
             Biopay::Command->Create(
                 command => 'register-member',
                 member_id => $member->id,
@@ -1191,9 +1208,11 @@ get '/new-member/:hash' => sub {
     }
 
     return template 'new-member-complete' if $member;
+
     template 'new-member-payment', {
         member => $pm,
         payment_url => $pm->payment_setup_url,
+		sign_up_fee => ($prices->signup_price + $prices->annual_membership_price),
         ($msg =~ m/^error/i ? (error => $msg) : (message => $msg))
     };
 };

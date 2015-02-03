@@ -60,13 +60,8 @@ my $daemon = Biopay::Daemon->new(
     CVs => [
         AnyEvent->timer(
             after => 2.0, interval => 60,
-            cb => \&check_for_unpaid_txns,
+            cb => \&check_for_things_to_do,
         ),
-        AnyEvent->timer(
-            after => 32.0, interval => 60,
-            cb => \&check_critical_tanks,
-        ),
-
     ],
     update_handlers => {
         qr/^(member|txn):/ =>\&check_for_unpaid_txns,
@@ -168,6 +163,11 @@ sub register_member {
         debug $err;
         email_admin("Error registering new member $email", "Error: $err");
     };
+}
+
+sub check_for_things_to_do {
+	check_critical_tanks();
+	check_for_unpaid_txns();
 }
 
 sub check_critical_tanks {

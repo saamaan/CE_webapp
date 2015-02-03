@@ -9,7 +9,6 @@ use DateTime::Duration;
 use Try::Tiny;
 use Biopay::Command;
 use Biopay::Receipt;
-use Biopay::Prices;
 use Biopay::Util
     qw/now_dt host email_admin email_board beanstream_url queue_email/;
 use Data::UUID;
@@ -60,8 +59,8 @@ has 'start_datetime' =>
 has 'dues_paid_until_datetime' =>
     (is => 'ro', isa => 'Maybe[DateTime]', lazy_build => 1);
 
-has 'price_per_litre_diesel' => (isa => 'Num',  is => 'rw', builder => '_build_ppl_diesel');
-has 'price_per_litre_biodiesel' => (isa => 'Num',  is => 'rw', builder => '_build_ppl_biodiesel');
+has 'price_per_litre_diesel' => (isa => 'Num',  is => 'rw', required => 1);
+has 'price_per_litre_biodiesel' => (isa => 'Num',  is => 'rw', required => 1);
 
 sub view_base { 'members' }
 method id { $self->member_id }
@@ -407,15 +406,5 @@ method _build_protest_link {
         $self->save;
     }
     host() . "/protest/$hash";
-}
-
-method _build_ppl_diesel {
-	my $default_fuel_price = Biopay::Prices->new->fuel_price;
-	return $default_fuel_price->{diesel};
-}
-
-method _build_ppl_biodiesel {
-	my $default_fuel_price = Biopay::Prices->new->fuel_price;
-	return $default_fuel_price->{biodiesel};
 }
 
