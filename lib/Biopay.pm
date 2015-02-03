@@ -360,33 +360,36 @@ get '/unpaid' => sub {
 post '/unpaid/mark-as-paid' => sub {
     my $txn_param = params->{txns};
     my @txn_ids = ref $txn_param ? @$txn_param : ($txn_param);
-    my @txns;
+    my @txns = ();
     my %paid;
-    for my $txn_id (@txn_ids) {
-        my $txn = Biopay::Transaction->By_id($txn_id);
-        next unless $txn;
-        next if $txn->paid;
 
-        $txn->paid(1);
-        if (my $n = params->{"notes-$txn_id"}) {
-            $txn->payment_notes($n);
-        }
-        $txn->save;
-        push @txns, $txn;
-        push @{ $paid{ $txn->{member_id} } }, $txn->id;
-    }
+	unless ( defined(@txn_ids) ) {
+	    for my $txn_id (@txn_ids) {
+	        my $txn = Biopay::Transaction->By_id($txn_id);
+	        next unless $txn;
+	        next if $txn->paid;
 
-    if (params->{send_receipt}) {
-        for my $mid (keys %paid) {
-            my $member = Biopay::Member->By_id($mid);
-            debug "Creating receipt job for member $mid";
-            Biopay::Command->Create(
-                command => 'send-receipt',
-                member_id => $mid,
-                txn_ids => $paid{$mid},
-            );
-        }
-    }
+	        $txn->paid(1);
+	        if (my $n = params->{"notes-$txn_id"}) {
+	            $txn->payment_notes($n);
+	        }
+	        $txn->save;
+	        push @txns, $txn;
+	        push @{ $paid{ $txn->{member_id} } }, $txn->id;
+	    }
+
+	    if (params->{send_receipt}) {
+	        for my $mid (keys %paid) {
+	            my $member = Biopay::Member->By_id($mid);
+	            debug "Creating receipt job for member $mid";
+	            Biopay::Command->Create(
+	                command => 'send-receipt',
+	                member_id => $mid,
+	                txn_ids => $paid{$mid},
+	            );
+	        }
+	    }
+	}
 
     template 'mark-as-paid', {
         txns => \@txns,
