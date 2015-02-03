@@ -43,6 +43,7 @@
     </div>
     [% IF is_admin %]
       [% IF member && member.member_id %]
+      [% ELSE %]
         <label for="">Diesel price</label>
         <div class="input">
           <input type="text" class="xlarge" name="price_per_litre_diesel" width="4" value="[% price_per_litre_diesel || member.price_per_litre_diesel %]" />
