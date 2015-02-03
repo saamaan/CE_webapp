@@ -48,8 +48,5 @@
     </dl>
     <p><a href="/login" class="large primary btn">Member Login</a></p>
     <p><a href="/admin-login" class="large btn">Admin Login</a></p>
-    <h3>Co-op Stats</h3>
-    <div class="vbc_stats"></div>
-    <script src="/stats-widget.js?j=1"></script>
   [% END %]
 </div>

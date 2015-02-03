@@ -96,13 +96,16 @@ $(function() {
     <form action="/new-member" method="POST">
       <fieldset>
       <div class="paragraph">
+        <font size="3"><font color="#006600">Congratulations on supporting the Cowichan Valley's source of local alternative fuel!</font><br></font><font color="#000000">The annual fee for joining the list of change-makers and Coop membership is $60. If you are joining for the first time, there's a one-time $5 charge for buying a share of the co-op. If you are an organization, with a fleet, please email us at info@smellbetter.org and we will be better able to help you.</font>
+      </div>
+<!--
+      <div class="paragraph">
         <font size="3"><font color="#006600">Congratulations on supporting the Cowichan Valley's source of local alternative fuel!</font><br></font><font color="#000000">The annual fee for renewing your CB-DC membership is $60. If you are joining for the first time, there's a one-time $5 charge for buying a share of the co-op. If you are an organization, the annual fee is $120 and $125 for a new member.</font><font color="#006600">*</font><font color="#000000"> If you are joining as a new member you will need to purchase your&nbsp;new Cardlock access card with P.I.N.</font><strong><font color="#ff0000" size="+0">**</font></strong><br><br>
       </div>
       <div class="paragraph">
         <font color="#006600">*We are piloting automated payment options using Paypal for member convenience. Paypal charges a 3.2% fee for all transactions, which is reflected in the prices below and in the biodiesel purchase prices online. You can pay using Paypal at any time, or come to our office during business hours to avoid the additional fee.<br></font><br><font color="#cc0000">**There is a $25 deposit for each cardlock access card so don't lose it! If you pay with Paypal, you are still only eligible for a $25 deposit refund.<br></font><br>
       </div>
 
-<!--
       <center>
         <p>This Membership Agreement ("Agreement") is made today, [% today_date %].</p>
         <p><strong>Between: the Cowichan Biodiesel Cooperative (the "CBDC")</strong></p>
@@ -158,7 +161,7 @@ $(function() {
     <div class="input"><input type="text" class="xlInput" name="email" size="30" value="[% email %]" /></div>
     <label for="">Phone Number:</label>
     <div class="input"><input type="text" class="xlInput" name="phone" size="12" value="[% phone %]" /></div>
-    <label for="">Desired Cardlock PIN:</label>
+    <label for="">Desired PIN:</label>
     <div class="input"><input type="text" class="xlInput" name="PIN" size="4" value="[% PIN %]" /> (Should be 4 digits)</div>
 
     <p>&nbsp;</p>

@@ -2,11 +2,11 @@
 
 <p>Congratulations! You are now a member of the Cowichan Biodiesel Co-op!</p>
 
-<p>We have successfully charged your credit card for the $25 sign-up fee, and we have activated the cardlock for you.  You can now visit our pump to fill up with B100 Biodiesel!  Any biodiesel you take will be immediately charged to your credit card.</p>
+<p>We have successfully charged your credit card for the $65 sign-up fee, and we have activated your member accoutn iwth us. You can now visit our pump to fill up with B100, B50, and B20 Biodiesel!  Any biodiesel you take will be immediately charged to your credit card.</p>
 
-<p><strong>To use the cardlock:</strong> Enter member # [% member.id %] and your self-selected PIN is [% PIN %].</p>
+<p><strong>To operate the pump:</strong> Enter member # [% member.id %] and your self-selected PIN [% PIN %].</p>
 
-<p>Your physical co-op membership card is not necessary to use the pump, just enter your member # and PIN.  If you'd like the physical card, stop by the Recycling Alternative office during business hours with picture ID.</p>
+<p>Your physical co-op membership card is not necessary to use the pump, just enter your member # and PIN.  If you'd like the physical card, stop by the Cowichan Bio-Diesel Co-op office during business hours with picture ID.</p>
 
 <p>To login to our online member area, where you can view your past transactions and manage your billing details, <a href="[% member.set_password_link %]">click here</a> to set your password.</p>
 

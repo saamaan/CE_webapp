@@ -10,7 +10,13 @@
     <li>Fuel sales:  [% stats.fuel_sales %]</li>
     <li>Diesel sold: [% stats.diesel_sold_alltime %] Litres</li>
     <li>Biodiesel sold: [% stats.biodiesel_sold_alltime %] Litres</li>
-    <li>Current taxes: 29.39¢/L</li>
+    <li> Current taxes:
+	  <ul>
+        <li>MFT: $0.15/L</li>
+        <li>CT: $0.0767/L</li>
+        <li>GST: 5% on Total</li>
+	  </ul>
+	</li>
     <li>Approx CO2 reduction: [% stats.co2_reduction %]kg (<a href="http://www.biomaxfuels.com.au/carbon.html">source</a>)</li>
   </ul>
   </div>
