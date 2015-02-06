@@ -5,10 +5,6 @@
   (since July 8th, 2011)<br />
   <div id="homepage-data">
   <ul>
-    <li>Active Members: [% stats.active_members() %]</li>
-    <li>Fuel sales:  [% stats.fuel_sales() %]</li>
-    <li>Diesel sold: [% stats.diesel_sold_alltime() %] Litres</li>
-    <li>Biodiesel sold: [% stats.biodiesel_sold_alltime() %] Litres</li>
     <li> Current taxes:
 	  <ul>
         <li>MFT: $0.15/L</li>

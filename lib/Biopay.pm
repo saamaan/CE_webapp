@@ -549,7 +549,7 @@ get '/members/:member_id/freeze' => sub {
         email_board(
             "Member @{[$member->name]} (# @{[$member->id]}) has been frozen",
             (session('username') || 'Unknown') . ' froze them.');
-        session message => "A freeze request was sent to the cardlock.";
+        session message => "A freeze request was sent.";
         redirect '/members/' . $member->id;
     }
     elsif (params->{please_unfreeze} and $member->frozen) {
@@ -558,7 +558,7 @@ get '/members/:member_id/freeze' => sub {
             "Member @{[$member->name]} (# @{[$member->id]}) has been un-frozen",
             'Admin user: ' . (session('username') || 'Unknown')
             . ' unfroze them.');
-        session message => "An un-freeze request was sent to the cardlock.";
+        session message => "An un-freeze request was sent.";
         redirect '/members/' . $member->id;
     }
     template 'freeze', {
@@ -650,10 +650,10 @@ post '/members/:member_id/change-individual-price' => sub {
 sub handle_individual_price_change {
 	my %p = @_;
     my $msg = '';
-    unless ($p{diesel_ppl} and $p{diesel_ppl} =~ m/^[123]\.\d{2}$/) {
+    unless ($p{diesel_ppl} and $p{diesel_ppl} =~ m/^[0123]\.\d{2}$/) {
 		$msg .= "Diesel price doesn't look valid. ";
     }
-    unless ($p{biodiesel_ppl} and $p{biodiesel_ppl} =~ m/^[123]\.\d{2}$/) {
+    unless ($p{biodiesel_ppl} and $p{biodiesel_ppl} =~ m/^[0123]\.\d{2}$/) {
 		$msg .= "Biodiesel price doesn't look valid. ";
     }
 	if ($msg) {
@@ -694,7 +694,7 @@ sub handle_change_pin {
     $new_PIN = 0 unless $new_PIN =~ m/^\d{4}$/;
     if ($new_PIN) {
         $p{member}->change_PIN($new_PIN);
-        session message => "A PIN change request was sent to the cardlock.";
+        session message => "A PIN change request was sent.";
         return redirect $p{good_url};
     }
     session warning => 'Sorry, the PIN must be 4 digits. Try again';
@@ -849,10 +849,10 @@ post '/default-fuel-price' => sub {
     my $new_biodiesel_price = params->{new_biodiesel_price};
     my $prices = Biopay::Prices->new;
     my $msg = '';
-    unless ($new_diesel_price and $new_diesel_price =~ m/^[123]\.\d{2}$/) {
+    unless ($new_diesel_price and $new_diesel_price =~ m/^[0123]\.\d{2}$/) {
 		$msg .= "Diesel price doesn't look valid. ";
     }
-    unless ($new_biodiesel_price and $new_biodiesel_price =~ m/^[123]\.\d{2}$/) {
+    unless ($new_biodiesel_price and $new_biodiesel_price =~ m/^[0123]\.\d{2}$/) {
 		$msg .= "Biodiesel price doesn't look valid. ";
     }
 	if ($msg) {
@@ -1106,10 +1106,10 @@ post '/new-member' => sub {
         $msg = "Sorry, that does not look like a valid phone number.";
     }
     elsif (!$pin) {
-        $msg = "A 4 digit cardlock PIN is required!";
+        $msg = "A 4 digit PIN is required!";
     }
     elsif ($pin !~ m/^\d{4}$/) {
-        $msg = "Sorry, the cardlock PIN must be 4 digits.";
+        $msg = "Sorry, the PIN must be 4 digits.";
     }
     elsif (!$checked) {
         $msg = "Please click the checkboxes to agree to the terms.";

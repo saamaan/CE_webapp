@@ -1,7 +1,7 @@
 [% IF member.frozen %]
   <h1>Un-freeze Member [% member.name %]</h1>
   <div class="alert-message block-message warning">
-    <p><strong>Note: Un-freezing a member will restore their cardlock access.</strong></p>
+    <p><strong>Note: Un-freezing a member will restore their pump access.</strong></p>
     <p>
       <a class="btn small primary" href="/members/[% member.member_id %]/freeze?please_unfreeze=1">Yes, un-freeze [% member.name %]</a>
       <a class="btn small" href="/members/[% member.member_id %]">No, go back.</a>
@@ -10,7 +10,7 @@
 [% ELSE %]
   <h1>Freeze Member: [% member.name %]</h1>
   <div class="alert-message block-message warning">
-    <p><strong>Note: Freezing a member will revoke their cardlock access.</strong></p>
+    <p><strong>Note: Freezing a member will revoke their pump access.</strong></p>
     <p>
       <a class="btn small primary" href="/members/[% member.member_id %]/freeze?please_freeze=1;email=1">Freeze and email [% member.name %]</a>
       <a class="btn small primary" href="/members/[% member.member_id %]/freeze?please_freeze=1">Just freeze [% member.name %]</a>

@@ -3,8 +3,8 @@
 <p>We had a problem billing your credit card for $[% amount %].</p>
 <p>[% error %]</p>
 
-<p><strong>Your account has been frozen until your payment details are updated.</strong>  You will not be able to use the cardlock to pump fuel.</p>
+<p><strong>Your account has been frozen until your payment details are updated.</strong>  You will not be able to operate the pump.</p>
 
 [% SET url = host _ '/member/update-payment' %]
 <p>Please update your payment details here: <a href="[% url %]">[% url %]</a></p>
-<p>If you need assistance, please reply to this email.</p>
+<p>If you need assistance, please email us at info@smellbetter.org.</p>

@@ -3,9 +3,9 @@
   <div class="alert-message warning">
     <strong>Note:</strong>
       [% IF is_admin %]
-        Cancelling membership will remove their cardlock access and delete their billing data.
+        Cancelling membership will remove their pump access and delete their billing data.
       [% ELSE %]
-        This will remove your cardlock access and delete your billing data!
+        This will remove your pump access and delete your billing data!
       [% END %]
   </div>
   [% SET uri = "/member/cancel" %]

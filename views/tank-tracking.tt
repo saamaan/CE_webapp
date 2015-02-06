@@ -6,19 +6,19 @@
       <legend>Enter the new values for [% pump_loc %] location</legend>
       <label id="new_vol" for="">Biodiesel Volume (L):</label>
       <div class="input">
-        <input type="text" class="xlarge" size="4" maxlength="4" name="new_biodiesel_vol" id="new_vol" value="[% current_biodiesel_vol %]" />
+        <input type="text" class="xlarge" size="7" maxlength="7" name="new_biodiesel_vol" id="new_vol" value="[% current_biodiesel_vol %]" />
    	  </div>
       <label id="new_vol" for="">Biodiesel Warning Volume (L):</label>
       <div class="input">
-        <input type="text" class="xlarge" size="4" maxlength="4" name="new_biodiesel_warn_vol" id="new_vol" value="[% current_biodiesel_warn_vol %]" />
+        <input type="text" class="xlarge" size="7" maxlength="7" name="new_biodiesel_warn_vol" id="new_vol" value="[% current_biodiesel_warn_vol %]" />
    	  </div>
 	  <label id="new_vol" for="">Diesel Volume (L):</label>
       <div class="input">
-        <input type="text" class="xlarge" size="4" maxlength="4" name="new_diesel_vol" id="new_vol" value="[% current_diesel_vol %]" />
+        <input type="text" class="xlarge" size="6" maxlength="6" name="new_diesel_vol" id="new_vol" value="[% current_diesel_vol %]" />
 	  </div>
 	  <label id="new_vol" for="">Diesel Warning Volume (L):</label>
       <div class="input">
-        <input type="text" class="xlarge" size="4" maxlength="4" name="new_diesel_warn_vol" id="new_vol" value="[% current_diesel_warn_vol %]" />
+        <input type="text" class="xlarge" size="6" maxlength="6" name="new_diesel_warn_vol" id="new_vol" value="[% current_diesel_warn_vol %]" />
 	  </div>
       <div class="actions">
         <input type="submit" class="btn large primary" value="Change Values" />

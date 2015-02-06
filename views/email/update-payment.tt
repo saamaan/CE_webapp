@@ -5,7 +5,7 @@
   <p>You currently have un-paid fuel transactions. When you update your payment details, these transactions will be charged and you will receive an email receipt.</p>
 [% END %]
 
-<p>If you have any questions, reply to this email and we can help!</p>
+<p>If you have any questions, email us at info@smellbetter.org and we can help!</p>
 
 [% SET pay_url=host _ '/member/update-payment' %]
 [% IF member.password %]
@@ -16,7 +16,8 @@
     [% SET url=member.set_password_link _ '?payment=1' %]
     <a href="[% url %]">[% url %]</a>
   </p>
-  <p>Once you have created a password, you can update your payment method and other details.</p>
+  <p>Once you have created a password, you can update your payment method, personal PIN (required to operate the pump), and other details.</p>
+  <p><strong>To operate the pump:</strong> Enter member # [% member.id %] and your PIN (which is currently set to [% PIN %]).</p>
 [% END %]
 
 <p>Thank you very much!</p>

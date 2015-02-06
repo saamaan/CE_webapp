@@ -84,7 +84,7 @@ method run {
         unless ($first_line =~ m/malformed JSON string/) {
         warn $self->name . " Error: $_";
         email_admin(
-            "Un-caught cardlock error: $first_line",
+            "Un-caught error: $first_line",
             "Not sure what happened: $_",
         );
         }
