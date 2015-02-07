@@ -17,6 +17,11 @@ method process {
     print " ($msg) ";
     return (1, undef) if config->{merchant_test};
 
+	if ($p{amount} < 0.009) {
+		print " (zero amount detected) ";
+		return (1, "Zero amount approved without actually being sent to payment gateway.");
+	}
+
     my $resp = $self->ua->post(
         'https://www.beanstream.com/scripts/process_transaction.asp',
         [
