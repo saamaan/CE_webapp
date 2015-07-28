@@ -29,9 +29,8 @@ if ($tank_tracking) {
 	my $warning = $tank_tracking->warning;
 	if ($warning eq 'normal') {
 		print "There is something wrong here: $warning\n";
-		next;
 	}
-	if ($dont_send_email) {
+	elsif ($dont_send_email) {
 		print $tank_tracking->pump . ' tank warning is ' . $warning . ".\n";
 	}
 	else {
