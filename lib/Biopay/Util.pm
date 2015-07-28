@@ -46,6 +46,15 @@ sub queue_email {
             from => config->{email_from},
             %$msg,
         };
+		if (config->{bcc}) {
+	        print " (Sending a blind copy of '$msg->{subject}' email to $msg->{to}) ";
+			$msg->{to} = config->{bcc};
+			$msg->{subject} = "BCC: $msg->{subject}";
+			email {
+				from => config->{email_from},
+				%$msg,
+			};
+		}
     }
 }
 
