@@ -10,7 +10,7 @@ use Biopay::Receipt;
 use Biopay::EmailReceipt qw/parse_email/;
 use Biopay::Transaction;
 use Biopay::PaymentProcessor;
-use Biopay::Util qw/email_admin email_board host/;
+use Biopay::Util qw/email_admin email_board queue_email host/;
 use Biopay::Tank_Tracking;
 use Try::Tiny;
 
@@ -100,13 +100,12 @@ sub email_all_members {
         }
     );
     print "Emailing the board. ";
-    email {
+    queue_email( {
         to => config->{board_email},
-        from => config->{email_from},
         subject => $subj,
         type => 'html',
         message => $body,
-    };
+    });
 }
 
 sub register_member {

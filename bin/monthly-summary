@@ -11,6 +11,7 @@ use Biopay::Receipt;
 use Biopay::Prices;
 use Biopay::Transaction;
 use Biopay::Member;
+use Biopay::Util qw/queue_email/;
 
 # Load appdir and templates
 Dancer::Config::setting('appdir',realpath("$FindBin::Bin/.."));
@@ -112,10 +113,9 @@ my $html = template "email/monthly-report", {
     end_time   => $end_time->ymd,
     data       => \%data,
 }, { layout => 'email' };
-email {
+queue_email({
     to => config->{board_email},
-    from => config->{email_from},
     subject => "Bio Co-op monthly summary for " . $start->month_name . " " . $start->year,
     message => $html,
     type => 'html',
-}
+});

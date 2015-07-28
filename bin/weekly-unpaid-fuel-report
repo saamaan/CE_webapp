@@ -11,7 +11,7 @@ use Biopay::Receipt;
 use Biopay::Prices;
 use Biopay::Transaction;
 use Biopay::Member;
-use Biopay::Util qw/host/;
+use Biopay::Util qw/queue_email host/;
 use List::Util qw/sum/;
 
 # Load appdir and templates
@@ -77,11 +77,10 @@ Summary: {
 }
 
 my $html = template "email/weekly-unpaid-summary", \%opts, { layout => 'email' };
-email {
+queue_email({
     to => $to,
     cc => config->{weekly_fuel_report_cc},
-    from => config->{email_from},
     subject => "Weekly un-paid biodiesel summary",
     message => $html,
     type => 'html',
-}
+});

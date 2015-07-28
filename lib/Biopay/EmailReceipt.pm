@@ -3,6 +3,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Email;
 use Moose;
 use Biopay::Transaction;
+use Biopay::Util qw/queue_email/;
 use methods;
 use base 'Exporter';
 
@@ -58,14 +59,13 @@ method send {
         total_co2_reduction => $total_co2_reduction,
     }, { layout => 'email' };
     for my $addr (parse_email($self->member->email)) {
-        email {
+        queue_email({
             to => $addr,
             bcc => config->{receipt_bcc},
-            from => config->{email_from},
             subject => "Biodiesel Co-op Receipt - \$$total_price",
             type => 'html',
             message => $html,
-        };
+        });
     }
 }
 
