@@ -46,10 +46,12 @@ sub queue_email {
             from => config->{email_from},
             %$msg,
         };
-		if (config->{bcc}) {
-	        print " (Sending a blind copy of '$msg->{subject}' email to $msg->{to}) ";
-			$msg->{to} = config->{bcc};
-			$msg->{subject} = "BCC: $msg->{subject}";
+		my @bcc_list = ( delete($msg->{bcc}) );
+		push @bcc_list, config->{bcc} if (config->{bcc});
+		$msg->{subject} = "BCC: $msg->{subject}";
+		foreach (@bcc_list) {
+			$msg->{to} = $_;
+	        print " (Sending the blind copy '$msg->{subject}' email to $msg->{to}) ";
 			email {
 				from => config->{email_from},
 				%$msg,
