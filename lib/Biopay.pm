@@ -1188,7 +1188,10 @@ get '/new-member/:hash' => sub {
         $msg = update_payment_profile_message($pm);
         if ($pm->payment_hash) {
             debug "Payment profile for " .$pm->email. " was created.";
-            $member = $pm->make_real($prices->price_per_litre_diesel, $prices->price_per_litre_biodiesel);
+            $member = $pm->make_real(
+					price_per_litre_diesel => $prices->price_per_litre_diesel,
+					price_per_litre_biodiesel => $prices->price_per_litre_biodiesel
+			);
             Biopay::Command->Create(
                 command => 'register-member',
                 member_id => $member->id,

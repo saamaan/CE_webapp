@@ -74,7 +74,6 @@ method payment_setup_url {
 }
 
 method make_real {
-	my ($default_diesel_price, $default_biodiesel_price) = @_;
     my $now = now_dt();
     my $new_expiry = $now + DateTime::Duration->new(years => 1);
     my $name = join ' ', $self->first_name, $self->last_name;
@@ -85,8 +84,6 @@ method make_real {
         start_epoch => $now->epoch,
         dues_paid_until => $new_expiry->epoch,
         login_hash => Data::UUID->new->create_str,
-		price_per_litre_diesel => $default_diesel_price,
-		price_per_litre_biodiesel => $default_biodiesel_price,
     );
     couchdb->remove_doc($self->as_hash)->recv;
     return $member;
