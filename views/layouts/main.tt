@@ -20,7 +20,6 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="stylesheet" href="/css/bootstrap-1.0.0.css">
     <link rel="stylesheet" href="/css/style.css?even_better=oyes">
-    <link rel="stylesheet" href="/css/sites.css">
     <link rel="stylesheet" href="/css/style_smellbetter.css">
 <!--    The google analytics is commented out for now
   <script type="text/javascript">
