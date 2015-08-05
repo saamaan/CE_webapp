@@ -1146,6 +1146,7 @@ post '/new-member' => sub {
 			$signup_price = $prices->signup_price;
 			$annual_price = $prices->annual_membership_price;
 		} catch {
+			info "Error retrieving prices. Error message: $_";
 			$msg = 'Error retrieving prices.';
 		};
 	}
