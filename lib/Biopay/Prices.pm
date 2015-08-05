@@ -26,7 +26,7 @@ method async_update {
             my $doc = $cv2->recv;
             for my $pf (@price_fields) {
                 die "Did not find '$pf' in the 'prices' doc!"
-                    unless $doc->{$pf};
+                    unless ( (defined $doc->{$pf}) and ($doc->{$pf} ne '') );
                 $self->$pf($doc->{$pf});
             }
             undef $cv;
@@ -54,13 +54,22 @@ method _build_price_per_litre_biodiesel {
 }
 
 method _build_annual_membership_price {
-    return $self->_doc->{annual_membership_price}
-        || die "No annual membership price found!";
+	my $doc = $self->_doc;
+	if ( (defined $doc->{annual_membership_price}) and
+			($doc->{annual_membership_price} ne '') ) {
+		return $doc->{annual_membership_price};
+	} else {
+		die "No annual membership price found!";
+	}
 }
 
 method _build_signup_price {
-    return $self->_doc->{signup_price}
-        || die "No signup_price found!";
+	my $doc = $self->_doc;
+	if ( (defined $doc->{signup_price}) and ($doc->{signup_price} ne '') ) {
+		return $doc->{signup_price};
+	} else {
+		die "No signup_price found!";
+	}
 }
 
 method _build__doc {
