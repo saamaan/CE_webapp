@@ -16,6 +16,8 @@ use Try::Tiny;
 
 use Data::Dumper;
 
+print "Lib path: " . qq(@INC) . "\n";
+
 my $daemon = Biopay::Daemon->new(
     name => 'job-runner',
     want_stream => 1,
