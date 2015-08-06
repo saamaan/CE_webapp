@@ -893,6 +893,20 @@ get '/reports' => sub {
     };
 };
 
+post '/reports/email-monthly' => sub {
+    Biopay::Command->Create(
+        command => 'send-monthly-report',
+    );
+    info "Monthly report queued to be sent.";
+};
+
+post '/reports/email-weekly-unpaid' => sub {
+    Biopay::Command->Create(
+        command => 'send-weekly-unpaid-report',
+    );
+    info "Weekly unpaid report queued to be sent.";
+};
+
 get '/reports/litres_per_txn/:period' => sub {
     return Biopay::Stats->new()->litres_per_txn_json(params->{period});
 };

@@ -1,4 +1,9 @@
 <h1>Reports</h1>
+<h2>Email Summary<h2>
+<div>
+  <input type="button" class="btn" id="email-monthly-report" value="send monthly-summary">
+  <input type="button" class="btn" id="email-weekly-unpaid-report" value="send weekly-unpaid-summary">
+</div>
 <h2>Transactions by size</h2>
 <div id="litres_per_txn" style="width:450px;height:300px"></div>
 <div>
@@ -156,5 +161,24 @@ $(function () {
             if (button.length) button.click(clickFunction);
         }
     }
+    // Disable button after the click for now. TODO proper CSRF?
+    $("#email-monthly-report").click(function () {
+        $.ajax({
+            url: "reports/email-monthly",
+            type: "POST",
+            dataType: "json",
+            // success: console.log('Monthly report Success!')
+        });
+        $("#email-monthly-report").attr("disabled", true);
+    });
+    $("#email-weekly-unpaid-report").click(function () {
+        $.ajax({
+            url: "reports/email-weekly-unpaid",
+            type: "POST",
+            dataType: "json",
+            // success: console.log('Weekly unpaid report Success!')
+        });
+        $("#email-weekly-unpaid-report").attr("disabled", true);
+    });
 });
 </script> 

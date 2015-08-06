@@ -56,6 +56,12 @@ my $daemon = Biopay::Daemon->new(
             # re-enable this later.
             # run('send-protest', $member->id, ($cc_member ? '--cc' : ()));
         },
+		'send-monthly-report' => sub {
+			run('monthly-summary');
+		},
+		'send-weekly-unpaid-report' => sub {
+			run('weekly-unpaid-fuel-report');
+		},
     },
     CVs => [
         AnyEvent->timer(
