@@ -2,15 +2,15 @@
 <h1>Change Individual Fuel Price for member [% member.member_id %]</h1>
 [% ELSE %]
 <h1>Change Default Fuel Price</h1>
-[% SET action = "/default-fuel-price" %]
+[% SET action = "/default-prices" %]
 [% END %]
-[% IF !message %][% SET message = "Price changes will only apply to subsequent transactions." %][% END %]
+[% IF !message %][% SET message = "Price changes will only apply to subsequent transactions, renewals, and sign-ups." %][% END %]
 [% INCLUDE message.tt %]
 <p>
   [% IF member && member.member_id %]
     <form action="/members/[% member.member_id %]/change-individual-price" method="POST">
   [% ELSE %]
-    <form action="/default-fuel-price" method="POST">
+    <form action="/default-prices" method="POST">
   [% END %]
     <fieldset>
       <legend>Enter the new prices</legend>
@@ -20,8 +20,19 @@
    	  </div>
 	  <label id="new_price" for="">Diesel price per litre:</label>
       <div class="input">
-        $<input type="text" class="xlarge" size="4" maxlength="4" name="new_diesel_price" id="new_price" value="[% current_diesel_price %]" />      
+        $<input type="text" class="xlarge" size="4" maxlength="4" name="new_diesel_price" id="new_price" value="[% current_diesel_price %]" />
 	  </div>
+  [% IF member && member.member_id %]
+  [% ELSE %]
+       <label id="new_price" for="">Sign-up price:</label>
+       <div class="input">
+         $<input type="text" class="xlarge" size="5" maxlength="5" name="new_signup_price" id="new_price" value="[% current_signup_price %]" />
+	  </div>
+      <label id="new_price" for="">Annual Membership price:</label>
+      <div class="input">
+        $<input type="text" class="xlarge" size="5" maxlength="5" name="new_membership_price" id="new_price" value="[% current_membership_price %]" />
+	  </div>
+ [% END %]
       <div class="actions">
         <input type="submit" class="btn large primary" value="Change Price" />
         <a class="btn large" href="[% back_url %]">Oops, go back.</a>

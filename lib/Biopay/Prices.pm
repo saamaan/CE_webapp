@@ -34,10 +34,12 @@ method async_update {
     );
 }
 
-method set_fuel_price($dppl, $bppl) {
+method set_fuel_price {
+    my ($args) = @_;
     my $doc = $self->_doc;
-    $self->{price_per_litre_diesel} = $doc->{price_per_litre_diesel} = $dppl;
-    $self->{price_per_litre_biodiesel} = $doc->{price_per_litre_biodiesel} = $bppl;
+    foreach (@price_fields) {
+        $self->{$_} = $doc->{$_} = $args->{$_} if defined $args->{$_};
+    }
     couchdb->save_doc($doc);
 }
 

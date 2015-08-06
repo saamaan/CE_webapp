@@ -836,17 +836,21 @@ post '/tank-tracking' => sub {
     };
 };
 
-get '/default-fuel-price' => sub {
-	my $fuel_price = Biopay::Prices->new->fuel_price;
+get '/default-prices' => sub {
+	my $prices = Biopay::Prices->new;
     template 'fuel-price', {
-        current_biodiesel_price => $fuel_price->{biodiesel},
-        current_diesel_price => $fuel_price->{diesel},
+        current_biodiesel_price => $prices->price_per_litre_biodiesel,
+        current_diesel_price => $prices->price_per_litre_diesel,
+        current_signup_price => $prices->signup_price,
+        current_membership_price => $prices->annual_membership_price,
 		back_url => '/',
     };
 };
-post '/default-fuel-price' => sub {
+post '/default-prices' => sub {
     my $new_diesel_price = params->{new_diesel_price};
     my $new_biodiesel_price = params->{new_biodiesel_price};
+    my $new_signup_price = params->{new_signup_price};
+    my $new_membership_price = params->{new_membership_price};
     my $prices = Biopay::Prices->new;
     my $msg = '';
     unless ($new_diesel_price and $new_diesel_price =~ m/^[0123]\.\d{2}$/) {
@@ -855,16 +859,29 @@ post '/default-fuel-price' => sub {
     unless ($new_biodiesel_price and $new_biodiesel_price =~ m/^[0123]\.\d{2}$/) {
 		$msg .= "Biodiesel price doesn't look valid. ";
     }
+    unless ($new_signup_price and $new_signup_price =~ m/^[1-9]?[0-9]\.\d{2}$/) {
+        $msg .= "Signup price doesn't look valid. ";
+    }
+    unless ($new_membership_price and $new_membership_price =~ m/^[1-9]?[0-9]\.\d{2}$/) {
+        $msg .= "Membership price doesn't look valid. ";
+    }
 	if ($msg) {
 			$msg .= "Try again.";
 	}
     else {
-		$prices->set_fuel_price($new_diesel_price, $new_biodiesel_price);
-        $msg = "Updated. Diesel price: \$$new_diesel_price per Litre, Biodiesel price: \$$new_biodiesel_price per Litre.";
+        $prices->set_fuel_price( {
+            price_per_litre_diesel => $new_diesel_price,
+            price_per_litre_biodiesel => $new_biodiesel_price,
+            signup_price => $new_signup_price,
+            annual_membership_price => $new_membership_price,
+        } );
+        $msg = "Updated. Diesel price: \$$new_diesel_price per Litre, Biodiesel price: \$$new_biodiesel_price per Litre, Signup price \$$new_signup_price, Annual Membership price \$$new_membership_price.";
     }
     template 'fuel-price', {
-        current_biodiesel_price => $prices->fuel_price->{biodiesel},
-        current_diesel_price => $prices->fuel_price->{diesel},
+        current_biodiesel_price => $prices->price_per_litre_biodiesel,
+        current_diesel_price => $prices->price_per_litre_diesel,
+        current_signup_price => $prices->signup_price,
+        current_membership_price => $prices->annual_membership_price,
 		back_url => '/',
         message => $msg,
     };
