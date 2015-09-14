@@ -163,8 +163,8 @@ method _litres_for_taxes {
 method _build_total_taxes {
   	my $tax = $taxes->{ $self->tax_area };
 	sprintf '%0.02f', $self->GST
-        + $self->litres * $tax->{motor_fuel} #0.24   # Road Fuels Tax
-        + $self->litres * $tax->{carbon}; #0.0639 # Carbon Tax
+        + $self->_litres_for_taxes * $tax->{motor_fuel} #0.24   # Road Fuels Tax
+        + $self->_litres_for_taxes * $tax->{carbon}; #0.0639 # Carbon Tax
 }
 
 method _build_tax_rate {
@@ -173,7 +173,7 @@ method _build_tax_rate {
 }
 
 method _build_co2_reduction {
-    return int($self->litres * 1.94);
+    return int($self->litres_biodiesel * 1.94);
 }
 
 method _build_price_per_litre {
