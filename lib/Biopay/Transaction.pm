@@ -134,18 +134,30 @@ method _build_GST {
 	sprintf '%0.02f', $self->price - ( $self->price / (1.0 + $tax->{sub_total}) );
 }
 
+
 #SP these two (carbon_tax and motor_fuel_tax attribs) 
 #are used for presentation purposes.
 #There may be small round off issues that cause the sum of these two
 #not to be equal to total_taxes...
 method _build_carbon_tax {
   	my $tax = $taxes->{ $self->tax_area };
-	sprintf '%0.02f', $self->litres * $tax->{carbon};
+	sprintf '%0.02f', $self->_litres_for_taxes * $tax->{carbon};
 }
 
 method _build_motor_fuel_tax {
   	my $tax = $taxes->{ $self->tax_area };
-	sprintf '%0.02f', $self->litres * $tax->{motor_fuel};
+	sprintf '%0.02f', $self->_litres_for_taxes * $tax->{motor_fuel};
+}
+
+# Price per litre values are supposed to include all the taxes. If Price per litre is
+# too small or specifically zero, it means the taxes were zero.
+method _litres_for_taxes {
+	my $tax = $taxes->{ $self->tax_area };
+	my $combined_tax_rate = $tax->{carbon} + $tax->{motor_fuel};
+	my $vol = 0;
+	$vol += $self->litres_diesel if $self->price_per_litre_diesel > $combined_tax_rate;
+	$vol += $self->litres_biodiesel if $self->price_per_litre_biodiesel > $combined_tax_rate;
+	return $vol;
 }
 
 method _build_total_taxes {
