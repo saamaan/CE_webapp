@@ -53,7 +53,8 @@ my %data = (
     total_litres => 0,
 	total_GST => 0,
 	total_crabon_tax => 0,
-	total_motor_fuel_tax => 0
+	total_motor_fuel_tax => 0,
+	nonzero_txn_count => 0
 );
 
 my $receipts = Biopay::Receipt->By_date({
@@ -93,15 +94,16 @@ for my $t (@$txns) {
 	$data{total_GST} += $t->GST;
 	$data{total_carbon_tax} += $t->carbon_tax;
 	$data{total_motor_fuel_tax} += $t->motor_fuel_tax;
+	$data{nonzero_txn_count}++ if ($t->price > 0);
 }
 
 my %costs;
 map { $costs{$_} = config->{"beanstream_$_"} || die "Can't find config for beanstream_$_" } qw/monthly per_txn rate/;
 $data{costs} = \%costs;
 $data{per_txn_fee} = sprintf('%.02f',
-    int($costs{per_txn} * $data{txn_count} * 100) / 100);
+    int($costs{per_txn} * $data{nonzero_txn_count} * 100) / 100);
 $data{txn_rate_fee} = sprintf '%.02f',
-    int($costs{rate} / 100 * $data{txn_sum} * 100) / 100;
+    int($costs{rate} / 100 * $data{nonzero_txn_count} * 100) / 100;
 $data{billing_cost} = sprintf '%.02f',
     $costs{monthly} + $data{per_txn_fee} + $data{txn_rate_fee};
 $data{billing_rate} = sprintf '%0.2f',
