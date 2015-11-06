@@ -87,8 +87,8 @@ for my $r (@$receipts) {
                 $data{litres_biodiesel_purchased} += $txn->litres_biodiesel;
                 $data{fuel_purchases}++;
                 $data{fuel_sum} += $txn->price;
-                $data{diesel_sum} += sprintf '%.02f', ($txn->litres_diesel * $txn->price_per_litres_diesel);
-                $data{biodiesel_sum} += sprintf '%.02f', ($txn->litres_biodiesel * $txn->price_per_litres_biodiesel);
+                $data{diesel_sum} += sprintf '%.02f', ($txn->litres_diesel * $txn->price_per_litre_diesel);
+                $data{biodiesel_sum} += sprintf '%.02f', ($txn->litres_biodiesel * $txn->price_per_litre_biodiesel);
             }
         }
     }
