@@ -3,7 +3,7 @@
 <p>Here's the activity from [% start_time %] to [% end_time %] in the co-op:</p>
 
 <h2>Fuel Activity</h2>
-<p>This month there were [% data.total_txns %] transactions for [% data.total_litres %] litres of Biodiesel.</p>
+<p>This month there were [% data.total_txns %] transactions for [% data.total_litres_biodiesel %] litres of Biodiesel and [% data.total_litres_diesel %] litres of Diesel.</p>
 
 <h2>New Members</h2>
 [% IF data.signups.size > 0 %]
@@ -18,7 +18,11 @@
 [% END %]
 
 <h2>Revenue</h2>
-<p>This month there were [% data.fuel_purchases %] fuel purchases buying a total of [% data.litres_purchased %] litres for $[% data.fuel_sum %].</p>
+<p>This month there were [% data.fuel_purchases %] fuel purchases buying a total of [% data.litres_purchased %] litres for $[% data.fuel_sum %]:</p>
+<ul>
+  <li>[% data.litres_diesel_purchased %] litres Diesel for $[% data.diesel_sum %],</li>
+  <li>[% data.litres_biodiesel_purchased %] litres Biodiesel for $[% data.biodiesel_sum %].</li>
+</ul>
 <p>In addition, we received $[% data.dues_received %] in membership dues. (New + renewals)</p>
 
 <h2>Taxes</h2>

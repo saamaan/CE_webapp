@@ -48,9 +48,16 @@ my %data = (
     txn_count => 0,
     txn_sum => 0,
     litres_purchased => 0,
+    litres_diesel_purchased => 0,
+    litres_biodiesel_purchased => 0,
+    fuel_sum => 0,
+    diesel_sum => 0,
+    biodiesel_sum => 0,
     fuel_purchases => 0,
     total_txns => 0,
     total_litres => 0,
+	total_litres_diesel => 0,
+	total_litres_biodiesel => 0,
 	total_GST => 0,
 	total_crabon_tax => 0,
 	total_motor_fuel_tax => 0,
@@ -76,8 +83,12 @@ for my $r (@$receipts) {
             when ('txn') {
                 my $txn = Biopay::Transaction->By_id($i->{desc});
                 $data{litres_purchased} += $txn->litres;
+                $data{litres_diesel_purchased} += $txn->litres_diesel;
+                $data{litres_biodiesel_purchased} += $txn->litres_biodiesel;
                 $data{fuel_purchases}++;
                 $data{fuel_sum} += $txn->price;
+                $data{diesel_sum} += sprintf '%.02f', ($txn->litres_diesel * $txn->price_per_litres_diesel);
+                $data{biodiesel_sum} += sprintf '%.02f', ($txn->litres_biodiesel * $txn->price_per_litres_biodiesel);
             }
         }
     }
@@ -95,6 +106,9 @@ for my $t (@$txns) {
 	$data{total_carbon_tax} += $t->carbon_tax;
 	$data{total_motor_fuel_tax} += $t->motor_fuel_tax;
 	$data{nonzero_txn_count}++ if ($t->price > 0);
+
+	$data{total_litres_diesel} += $t->litres_diesel;
+	$data{total_litres_biodiesel} += $t->litres_biodiesel;
 }
 
 my %costs;
