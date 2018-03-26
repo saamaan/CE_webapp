@@ -34,7 +34,7 @@ has 'want_stream' => (is => 'ro', isa => 'Bool', default => sub { 0 });
 has 'couch'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 has 'stream' => (is => 'rw', isa => 'Maybe[Object]');
-has '_last_seq' => (is => 'rw', isa => 'Str', default => 0);
+has '_last_seq' => (is => 'rw', isa => 'Num', default => 0);
 
 method BUILD {
     my $exitsub = sub { $self->main_loop->send };

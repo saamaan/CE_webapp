@@ -3,7 +3,7 @@
 <p>You are logged in.  Use the sidebar to access different parts.</p>
 
 <p><strong>Co-op Statistics</strong>
-  (since July 8th, 2011)<br />
+  (since August 6th, 2015)<br />
   <div id="homepage-data">
   <ul>
     <li>Members in this system: [% stats.active_members %]</li>

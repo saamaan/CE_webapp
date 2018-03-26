@@ -805,16 +805,16 @@ post '/tank-tracking' => sub {
     my $new_biodiesel_warn_vol = params->{new_biodiesel_warn_vol};
     my $tank_tracking = Biopay::Tank_Tracking->By_location($pump_loc);
 	my $msg = '';
-    unless ($new_diesel_vol and $new_diesel_vol =~ m/^[-]?[0-9]+$/) {
+    unless ($new_diesel_vol and $new_diesel_vol =~ m/^[-]?[0-9]+(\.\d{1,3})?$/) {
 		$msg .= "Diesel volume doesn't look valid. ";
     }
-    unless ($new_biodiesel_vol and $new_biodiesel_vol =~ m/^[-]?[0-9]+$/) {
+    unless ($new_biodiesel_vol and $new_biodiesel_vol =~ m/^[-]?[0-9]+(\.\d{1,3})?$/) {
 		$msg .= "Biodiesel volume doesn't look valid. ";
     }
-    unless ($new_diesel_warn_vol and $new_diesel_warn_vol =~ m/^[0-9]+$/) {
+    unless ($new_diesel_warn_vol and $new_diesel_warn_vol =~ m/^[0-9]+(\.\d{1,3})?$/) {
 		$msg .= "Diesel warn volume doesn't look valid. ";
     }
-    unless ($new_biodiesel_warn_vol and $new_biodiesel_warn_vol =~ m/^[0-9]+$/) {
+    unless ($new_biodiesel_warn_vol and $new_biodiesel_warn_vol =~ m/^[0-9]+(\.\d{1,3})?$/) {
 		$msg .= "Biodiesel warn volume doesn't look valid. ";
     }
 	if ($msg) {

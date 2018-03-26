@@ -2,7 +2,7 @@
 
 <p>Congratulations! You are now a member of the Cowichan Biodiesel Co-op!</p>
 
-<p>We have successfully charged your credit card for the sign-up fees, and we have activated your member accoutn with us. You can now visit our pump at 3900 Drinkwater Road Cowichan Valley to fill up with B100, B50, and B20 Biodiesel!  Any biodiesel you take will be immediately charged to your credit card.</p>
+<p>We have successfully charged your credit card for the sign-up fees, and we have activated your member account with us. You can now visit our pump at 3900 Drinkwater Road Cowichan Valley to fill up with B100, B50, and B20 Biodiesel!  Any biodiesel you take will be immediately charged to your credit card.</p>
 
 <p><strong>To operate the pump:</strong> Enter member # [% member.id %] and your self-selected PIN [% PIN %].</p>
 
