@@ -159,7 +159,7 @@ method cumulative_litres {
 method taxes_paid      {
     sprintf '%.02f', 
         $self->fuel_sold_alltime->{litres} * 0.24     # Motor Fuels Tax  #SP TTP
-        + $self->fuel_sold_alltime->{litres} * 0.0639 # Carbon Tax       #SP TTP
+        + $self->fuel_sold_alltime->{litres} * 0.0895 # Carbon Tax       #SP TTP
         + ($self->fuel_sales - $self->fuel_sales / 1.05)          # HST
 }
 

@@ -12,9 +12,9 @@ use Data::Dumper;
 #SP, will leave this hardcoded for now.
 #To be moved to DB later. It can have its own class and a website page to update..
 my $taxes =  {
-		'BC' => {motor_fuel => 0.15, carbon => 0.0767, sub_total => 0.05},
-		'Vancouver' => {motor_fuel => 0.26, carbon => 0.0767, sub_total => 0.05},
-		'Victoria' => {motor_fuel => 0.18, carbon => 0.0767, sub_total => 0.05}
+		'BC' => {motor_fuel => 0.15, carbon => 0.0895, sub_total => 0.05},
+		'Vancouver' => {motor_fuel => 0.26, carbon => 0.0895, sub_total => 0.05},
+		'Victoria' => {motor_fuel => 0.18, carbon => 0.0895, sub_total => 0.05}
 };
 
 extends 'Biopay::Resource';
@@ -164,7 +164,7 @@ method _build_total_taxes {
   	my $tax = $taxes->{ $self->tax_area };
 	sprintf '%0.02f', $self->GST
         + $self->_litres_for_taxes * $tax->{motor_fuel} #0.24   # Road Fuels Tax
-        + $self->_litres_for_taxes * $tax->{carbon}; #0.0639 # Carbon Tax
+        + $self->_litres_for_taxes * $tax->{carbon}; #0.0895 # Carbon Tax
 }
 
 method _build_tax_rate {
