@@ -59,8 +59,9 @@ my %data = (
 	total_litres_diesel => 0,
 	total_litres_biodiesel => 0,
 	total_GST => 0,
-	total_crabon_tax => 0,
+	total_carbon_tax => 0,
 	total_motor_fuel_tax => 0,
+	total_fuel_excise_tax => 0,
 	nonzero_txn_count => 0
 );
 
@@ -105,6 +106,7 @@ for my $t (@$txns) {
 	$data{total_GST} += $t->GST;
 	$data{total_carbon_tax} += $t->carbon_tax;
 	$data{total_motor_fuel_tax} += $t->motor_fuel_tax;
+	$data{total_fuel_excise_tax} += $t->fuel_excise_tax;
 	$data{nonzero_txn_count}++ if ($t->price > 0);
 
 	$data{total_litres_diesel} += $t->litres_diesel;

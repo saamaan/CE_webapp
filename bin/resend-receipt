@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+use 5.14.1;
+use Dancer qw/:syntax/;
+use FindBin;
+use Cwd qw/realpath/;
+use lib "$FindBin::Bin/../lib";
+use Biopay::Command;
+use Biopay::EmailReceipt;
+use Biopay::Receipt;
+use Getopt::Long;
+
+BEGIN {
+    Dancer::Config::setting('appdir',realpath("$FindBin::Bin/.."));
+    Dancer::Config::setting('views',realpath("$FindBin::Bin/../views"));
+    Dancer::Config::load();
+}
+
+# nrqm, 2019-03-15 - be careful, I hacked this out of the send-receipts script and I haven't used Perl in
+# like 15 years.  There is no error checking.  It takes a member ID and a list of transaction
+# IDs for that member (you are responsible for making sure that everything is correct) and 
+# emails the member a receipt including line items for each of the transactions.  Here is the 
+# example I ran, with some obfuscation to make sure it doesn't run again accidentally:
+#
+# cewebapp@ip-172-31-37-161:~$ webapp/bin/resend-receipt 1XX1 1XX1.1548973419 1XX1.1549577808 1XX1.1550182224 1XX1.1550786897
+
+my $mid = shift;
+
+print "Member $mid\n";
+print "Txns: " . scalar @ARGV . "\n";
+
+$mid and scalar @ARGV or die "Usage: $0 member_id txn1_id txn2_id....";
+
+Biopay::EmailReceipt->new(
+    member_id => $mid,
+    txn_ids => \@ARGV
+)->send;
+
+exit;
+
+
