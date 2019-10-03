@@ -2,13 +2,14 @@
 [% INCLUDE message.tt %]
 
 <p><strong>Co-op Statistics</strong>
-  (since July 8th, 2011)<br />
+  (since August 6th, 2015)<br />
   <div id="homepage-data">
   <ul>
     <li> Current taxes:
 	  <ul>
         <li>MFT: $0.15/L</li>
-        <li>CT: $0.0767/L</li>
+        <li>CT: $0.1023/L</li>
+        <li>FET: $0.04/L</li>
         <li>GST: 5% on Total</li>
 	  </ul>
 	</li>

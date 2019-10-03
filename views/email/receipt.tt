@@ -19,6 +19,7 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
         <th align="center">Litres</th>
         <th align="center">Carbon Tax</th>
         <th align="center">Motor Fuel Tax</th>
+        <th align="center">Fuel Excise Tax</th>
         <th align="center">GST</th>
         <th align="center">Amount</th>
       </tr>
@@ -29,6 +30,7 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
         <td align="center">[% txn.litres %]</td>
         <td align="center">$[% txn.carbon_tax %]</td>
         <td align="center">$[% txn.motor_fuel_tax %]</td>
+        <td align="center">$[% txn.fuel_excise_tax %]</td>
         <td align="center">$[% txn.GST %]</td>
         <td align="center">$[% txn.price %]</td>
       </tr>
@@ -37,6 +39,7 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
       <tr>
         <td>Membership dues until [% member.dues_paid_until_datetime.ymd %]</td>
         <td align="center">$[% dues %] per year</td>
+        <td align="center">-</td>
         <td align="center">-</td>
         <td align="center">-</td>
         <td align="center">-</td>
@@ -49,6 +52,7 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
         <td></td>
         <td align="center"><strong>$[% total_carbon_tax %]</strong></td>
         <td align="center"><strong>$[% total_motor_fuel_tax %]</strong></td>
+        <td align="center"><strong>$[% total_fuel_excise_tax %]</strong></td>
         <td align="center"><strong>$[% total_GST %]</strong></td>
         <td align="center"><strong>$[% total_price %]</strong></td>
       </tr>
@@ -56,6 +60,6 @@ This fuel reduces your CO2 contribution by approximately [% total_co2_reduction 
 <br />
 
 <!--
-<p>The 'Total Tax' column includes the GST (5%), the Road Fuels Tax (24¢/L) and the Carbon Tax (6.39¢/L).  CBDC working with other Biodiesel co-ops in BC to reduce these taxes.</p>
+<p>The 'Total Tax' column includes the GST (5%), the Road Fuels Tax (24¢/L), the Fuel Excise Tax (4¢/L) and the Carbon Tax (10.23¢/L).  CBDC working with other Biodiesel co-ops in BC to reduce these taxes.</p>
 <br />
 -->

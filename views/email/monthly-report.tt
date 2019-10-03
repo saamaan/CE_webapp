@@ -30,7 +30,8 @@
 <ul>
   <li>Total GST: $[% data.total_GST %]</li>
   <li>Total Carbon Tax: $[% data.total_carbon_tax %]</li>
-  <li>Total Motor Fule Tax: $[% data.total_motor_fuel_tax %]</li>
+  <li>Total Motor Fuel Tax: $[% data.total_motor_fuel_tax %]</li>
+  <li>Total Fuel Excise Tax: $[% data.total_fuel_excise_tax %]</li>
 </ul>
 
 <h2>Costs</h2>

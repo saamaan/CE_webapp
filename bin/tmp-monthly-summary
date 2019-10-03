@@ -1,0 +1,250 @@
+#!/usr/bin/env perl
+use 5.14.1;
+use DateTime;
+use DateTime::Duration;
+use Dancer qw/:syntax/;
+use Dancer::Plugin::Email;
+use FindBin;
+use Cwd qw/realpath/;
+use lib "$FindBin::Bin/../lib";
+use Biopay::Receipt;
+use Biopay::Prices;
+use Biopay::Transaction;
+use Biopay::Member;
+use Biopay::Util qw/queue_email/;
+use Data::Dumper;
+use Text::CSV::Slurp;
+#use DBI;
+use Date::Parse;
+
+my @txnslist = ();
+
+# Load appdir and templates
+Dancer::Config::setting('appdir',realpath("$FindBin::Bin/.."));
+Dancer::Config::setting('views',realpath("$FindBin::Bin/../views"));
+Dancer::Config::load();
+
+my $membership_price = Biopay::Prices->new->annual_membership_price;
+
+# Always Run for the previous month.
+my $start = DateTime->now - DateTime::Duration->new(months => 1);
+$start->set_day(1);
+$start->set_hour(0);
+$start->set_minute(0);
+$start->set_second(0);
+my $start_epoch = $start->epoch;
+if (defined $ENV{'STARTDATE'}) {
+    $start_epoch = str2time($ENV{'STARTDATE'});
+    $start = DateTime->from_epoch(epoch => $start_epoch);
+}
+my $end_time = $start + DateTime::Duration->new(months => 1) - DateTime::Duration->new(seconds => 1);
+my $end_epoch = $end_time->epoch;
+if (defined $ENV{'ENDDATE'}) {
+    $end_epoch = str2time($ENV{'ENDDATE'});
+    $end_time = DateTime->from_epoch(epoch => $end_epoch);
+}
+# SP for some reason without printing these, both epochs will be all weird!
+print STDERR "start: $start, epoch: $start_epoch.\n";
+print STDERR "end: $end_time, epoch: $end_epoch.\n";
+
+# Number of new member signups
+# Amount of dues received
+# Number of TXNs
+# Amount of all TXNs
+# Litres Purchased
+# Beanstream dues incurred
+# Total (paid+unpaid) txns
+# Total (paid+unpaid) litres
+my %data = (
+    signups => [],
+    dues_received => 0,
+    txn_count => 0,
+    txn_sum => 0,
+    litres_purchased => 0,
+    litres_diesel_purchased => 0,
+    litres_biodiesel_purchased => 0,
+    fuel_sum => 0,
+    diesel_sum => 0,
+    biodiesel_sum => 0,
+    fuel_purchases => 0,
+    total_txns => 0,
+    total_litres => 0,
+	total_litres_diesel => 0,
+	total_litres_biodiesel => 0,
+	total_GST => 0,
+	total_crabon_tax => 0,
+	total_motor_fuel_tax => 0,
+	nonzero_txn_count => 0
+);
+
+my $receipts = Biopay::Receipt->By_date({
+    startkey => $start_epoch,
+    endkey   => $end_epoch,
+});
+
+for my $r (@$receipts) {
+    for my $i (@{ $r->{items} }) {
+        given ($i->{type}) {
+            when ('signup') {
+                push @{ $data{signups} },
+                    Biopay::Member->By_id($r->{member_id});
+                $data{dues_received} += $membership_price;
+            }
+            when ('dues') {
+                $data{dues_received} += $i->{amount};
+            }
+            when ('txn') {
+                my $txn = Biopay::Transaction->By_id($i->{desc});
+              #  print Dumper($txn);
+                #push @txns, { %$txn };
+                $data{litres_purchased} += $txn->litres;
+                $data{litres_diesel_purchased} += $txn->litres_diesel;
+                $data{litres_biodiesel_purchased} += $txn->litres_biodiesel;
+                $data{fuel_purchases}++;
+                $data{fuel_sum} += $txn->price;
+                $data{diesel_sum} += sprintf '%.02f', ($txn->litres_diesel * $txn->price_per_litre_diesel);
+                $data{biodiesel_sum} += sprintf '%.02f', ($txn->litres_biodiesel * $txn->price_per_litre_biodiesel);
+            }
+        }
+    }
+    $data{txn_count}++;
+    $data{txn_sum} += $r->{amount};
+}
+
+my $txns = Biopay::Transaction->By_date({
+    startkey => $start_epoch, endkey => $end_epoch,
+});
+for my $t (@$txns) {
+    $data{total_txns}++;
+    $data{total_litres} += $t->litres;
+	$data{total_GST} += $t->GST;
+	$data{total_carbon_tax} += $t->carbon_tax;
+	$data{total_motor_fuel_tax} += $t->motor_fuel_tax;
+	$data{nonzero_txn_count}++ if ($t->price > 0);
+
+	$data{total_litres_diesel} += $t->litres_diesel;
+	$data{total_litres_biodiesel} += $t->litres_biodiesel;
+        my %temp_t = %$t;
+        my $t_member_id = $temp_t{member_id};
+	my $member = Biopay::Member->By_id($t_member_id);
+        $temp_t{member_name} = $member->name;
+	push @txnslist, {%temp_t};
+}
+
+# print STDERR "\n", Dumper($receipts);
+
+my %costs;
+map { $costs{$_} = config->{"beanstream_$_"} || die "Can't find config for beanstream_$_" } qw/monthly per_txn rate/;
+$data{costs} = \%costs;
+$data{per_txn_fee} = sprintf('%.02f',
+    int($costs{per_txn} * $data{nonzero_txn_count} * 100) / 100);
+$data{txn_rate_fee} = sprintf '%.02f',
+    int($costs{rate} / 100 * $data{txn_sum} * 100) / 100;
+$data{billing_cost} = sprintf '%.02f',
+    $costs{monthly} + $data{per_txn_fee} + $data{txn_rate_fee};
+$data{billing_rate} = sprintf '%0.2f',
+    $data{billing_cost} / $data{txn_sum} * 100;
+$data{fuel_sum} = sprintf '%.02f', $data{fuel_sum};
+
+#my $html = template "email/monthly-report", {
+#    start_time => $start->ymd,
+#    end_time   => $end_time->ymd,
+#    data       => \%data,
+#}, { layout => 'email' };
+#queue_email({
+#    to => config->{board_email},
+#    subject => "Bio Co-op monthly summary for " . $start->month_name . " " . $start->year,
+#    message => $html,
+#    type => 'html',
+#});
+my $csv = Text::CSV::Slurp->create( input => \@txnslist);
+
+#print $csv;
+#print "\n", Dumper(\%data);
+# Generate random string for temporary folder name
+my @chars = ("A".."Z", "a".."z");
+my $temp_dir;
+$temp_dir .= $chars[rand @chars] for 1..16;
+$temp_dir = "/tmp/report-$temp_dir";
+# Create the temporary folder if it's not already exist
+mkdir $temp_dir unless -d $temp_dir;
+# Change the current working directory to the temporary folder
+chdir $temp_dir;
+# Set the output file name to Transactions.csv
+my $file = "Transactions.csv";
+# Write all the transactions to Transactions.csv file
+open( FH, ">$file") || die "Couldn't open $file $!";
+print FH $csv;
+close FH;
+# Write summary to Summary.txt file
+$file = "Summary.txt";
+open( FH, ">$file") || die "Couldn't open $file $!";
+print FH Dumper(\%data);
+close FH;
+# SQL query using DBI::CSV, deprecated
+#my $dbh = DBI->connect("dbi:CSV:", undef, undef, {
+#    AutoCommit => 1,
+#    RaiseError => 1,
+#    f_ext      => ".csv/r",
+#    f_dir      => $temp_dir
+#}) or die "Cannot connect: $DBI::errstr";
+#
+#sub select_into {
+#    my $dbh = $_[0];
+#    my $sql = $_[1];
+#    my $temp_dir = $_[2];
+#    my $file = $_[3];
+#    my @result = ();
+#    my $sth = $dbh->prepare($sql);
+#    $sth->execute;
+#    while (my $row = $sth->fetchrow_hashref) {
+#      print Dumper $row;
+#      push @result, {%$row};
+#    }
+#    $file = "$temp_dir/$file";
+#    $csv = Text::CSV::Slurp->create( input=> \@result );
+#    open( FH, ">$file") || die "Couldn't open $file $!";
+#    print FH $csv;
+#    close FH;
+#}
+#select_into($dbh, $sql, $temp_dir, "TotalMFTPerBlend.csv");
+
+# Function that execute a SQL query and output to a CSV file
+sub query_into {
+    my $sql = $_[0];
+    my $file = $_[1];
+    system("q -H -d ',' -O \"$sql\" > \"$file\"");
+}
+
+# Query for total tax breakdown for each fuel blend
+my $sql = <<"END_SQL";
+SELECT mix AS Mix, SUM(litres_diesel) AS TotalLitresDiesel, SUM(litres_biodiesel) AS TotalLitresBiodiesel,
+SUM(GST) AS TotalGST, SUM(carbon_tax) AS TotalCT, SUM(motor_fuel_tax) AS TotalMFT
+FROM Transactions.csv
+GROUP BY mix
+ORDER BY mix
+END_SQL
+query_into($sql, "TotalTaxPerBlend.csv");
+
+# Query for user fuel usage and tax breakdown per blend
+$sql = <<"END_SQL";
+SELECT member_name AS Name, mix AS Mix,
+SUM(litres_biodiesel) AS TotalLitresBiodiesel, SUM(litres_diesel) AS TotalLitresDiesel,
+SUM(GST) AS TotalGST, SUM(carbon_tax) AS TotalCT, SUM(motor_fuel_tax) AS TotalMFT
+FROM Transactions.csv
+GROUP BY member_id, mix
+ORDER BY member_id, mix
+END_SQL
+query_into($sql, "UserFuelUsage.csv");
+
+# Query for total tax breakdown per user
+$sql = <<"END_SQL";
+SELECT member_name AS Name,
+SUM(GST) AS TotalGST, SUM(carbon_tax) AS TotalCT, SUM(motor_fuel_tax) AS TotalMFT FROM Transactions.csv
+GROUP BY member_id
+ORDER BY member_id
+END_SQL
+query_into($sql, "UserTotalTax.csv");
+
+system("tar czO *");
+system("rm -rf $temp_dir");

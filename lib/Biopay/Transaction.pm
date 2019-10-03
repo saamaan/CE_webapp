@@ -11,10 +11,13 @@ use Data::Dumper;
 
 #SP, will leave this hardcoded for now.
 #To be moved to DB later. It can have its own class and a website page to update..
+# Updates: 
+#     11 January 2019 - CT -> 8.95 c/L
+#     04 April 2019 - CT -> 10.23 c/L
 my $taxes =  {
-		'BC' => {motor_fuel => 0.15, carbon => 0.0767, sub_total => 0.05},
-		'Vancouver' => {motor_fuel => 0.26, carbon => 0.0767, sub_total => 0.05},
-		'Victoria' => {motor_fuel => 0.18, carbon => 0.0767, sub_total => 0.05}
+		'BC' => {motor_fuel => 0.15, carbon => 0.1023, sub_total => 0.05, fuel_excise => 0.04},
+		'Vancouver' => {motor_fuel => 0.26, carbon => 0.1023, sub_total => 0.05, fuel_excise => 0.04},
+		'Victoria' => {motor_fuel => 0.18, carbon => 0.1023, sub_total => 0.05, fuel_excise => 0.04}
 };
 
 extends 'Biopay::Resource';
@@ -45,6 +48,7 @@ has 'GST'                 => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'total_taxes'         => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'carbon_tax'          => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'motor_fuel_tax'      => (is => 'ro', isa => 'Num',    lazy_build => 1);
+has 'fuel_excise_tax'     => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'tax_rate'            => (is => 'ro', isa => 'Num',    lazy_build => 1);
 has 'datetime'            => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'pretty_date'         => (is => 'ro', isa => 'Str',    lazy_build => 1);
@@ -135,8 +139,9 @@ method _build_GST {
 }
 
 
-#SP these two (carbon_tax and motor_fuel_tax attribs) 
-#are used for presentation purposes.
+#SP these three (carbon_tax, motor_fuel_tax, and fuel_excise_tax attribs) 
+#are used for presentation purposes, they are not added to the total charged at the pump.
+#The pump already includes taxes in the price-per-litre value configured on the Biopay website.
 #There may be small round off issues that cause the sum of these two
 #not to be equal to total_taxes...
 method _build_carbon_tax {
@@ -149,22 +154,29 @@ method _build_motor_fuel_tax {
 	sprintf '%0.02f', $self->_litres_for_taxes * $tax->{motor_fuel};
 }
 
-# Price per litre values are supposed to include all the taxes. If Price per litre is
+method _build_fuel_excise_tax {
+        my $tax = $taxes->{ $self->tax_area };
+        sprintf '%0.02f', $self->_litres_for_taxes * $tax->{fuel_excise};
+}
+
+# Price per litre values supplied by the pump include all the taxes. If Price per litre is
 # too small or specifically zero, it means the taxes were zero.
 method _litres_for_taxes {
 	my $tax = $taxes->{ $self->tax_area };
-	my $combined_tax_rate = $tax->{carbon} + $tax->{motor_fuel};
+	my $combined_tax_rate = $tax->{carbon} + $tax->{motor_fuel} + $tax->{fuel_excise};
 	my $vol = 0;
 	$vol += $self->litres_diesel if $self->price_per_litre_diesel > $combined_tax_rate;
 	$vol += $self->litres_biodiesel if $self->price_per_litre_biodiesel > $combined_tax_rate;
 	return $vol;
 }
 
+
 method _build_total_taxes {
   	my $tax = $taxes->{ $self->tax_area };
 	sprintf '%0.02f', $self->GST
         + $self->_litres_for_taxes * $tax->{motor_fuel} #0.24   # Road Fuels Tax
-        + $self->_litres_for_taxes * $tax->{carbon}; #0.0639 # Carbon Tax
+        + $self->_litres_for_taxes * $tax->{carbon}; #0.1023 # Carbon Tax
+        + $self->_litres_for_taxes * $tax->{fuel_excise} #0.04 # Fuel excise tax
 }
 
 method _build_tax_rate {

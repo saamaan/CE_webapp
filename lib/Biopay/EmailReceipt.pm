@@ -28,6 +28,7 @@ method send {
 #    my $total_tax = 0;
     my $total_carbon_tax = 0;
     my $total_motor_fuel_tax = 0;
+    my $total_fuel_excise_tax = 0;
     my $total_GST = 0;
     my $total_co2_reduction = 0;
     for (@{ $self->txns }) {
@@ -36,6 +37,7 @@ method send {
 #        $total_tax    += $_->total_taxes;
         $total_carbon_tax += $_->carbon_tax;
         $total_motor_fuel_tax += $_->motor_fuel_tax;
+	$total_fuel_excise_tax += $_->fuel_excise_tax;
         $total_GST    += $_->GST;
         $total_co2_reduction += $_->co2_reduction;
     }
@@ -44,6 +46,7 @@ method send {
 #    $total_tax   = sprintf '%0.02f', $total_tax;
 	$total_carbon_tax   = sprintf '%0.02f', $total_carbon_tax;
 	$total_motor_fuel_tax   = sprintf '%0.02f', $total_motor_fuel_tax;
+	$total_fuel_excise_tax = sprintf '%0.02f', $total_fuel_excise_tax;
 	$total_GST   = sprintf '%0.02f', $total_GST;
 
     my $html = template 'email/receipt', {
@@ -55,6 +58,7 @@ method send {
 #        total_taxes  => $total_tax,
         total_carbon_tax  => $total_carbon_tax,
         total_motor_fuel_tax  => $total_motor_fuel_tax,
+	total_fuel_excise_tax => $total_fuel_excise_tax,
         total_GST    => $total_GST,
         total_co2_reduction => $total_co2_reduction,
     }, { layout => 'email' };
